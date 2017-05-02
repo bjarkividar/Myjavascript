@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using MyJavaScript.Models.Entity;
 
 namespace MyJavaScript.Models
 {
@@ -20,7 +21,11 @@ namespace MyJavaScript.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext()
+
+		public DbSet<Project> Projects { get; set; }
+		public DbSet<User> Users { get; set; }
+		public DbSet<File> Files { get; set; }
+		public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }

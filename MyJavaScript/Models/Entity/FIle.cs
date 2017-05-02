@@ -5,11 +5,13 @@ using System.Web;
 
 namespace MyJavaScript.Models.Entity
 {
-	public class Project
+	public class File
 	{
 		public int ID { get; set; }
 		public string Title { get; set; }
-		public int UserID { get; set; }
+		public string ContentType { get; set; }
+		public byte[] Data { get; set; }
+		public int ProjectID { get; set; }
 
 	}
 }
