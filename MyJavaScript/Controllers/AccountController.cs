@@ -17,7 +17,6 @@ namespace MyJavaScript.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        //Tékka hvort virki að pusha blablabla
 
 
         public AccountController()
