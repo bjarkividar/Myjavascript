@@ -23,6 +23,15 @@ namespace MyJavaScript.Controllers
             return View(db.Projects.ToList());
         }
 
+		public ActionResult MyProjects()
+		{
+			IEnumerable<Project> result = from project in db.Projects
+										  where project.UserID == System.Web.HttpContext.Current.User.Identity.Name
+										  orderby project.Title
+										  select project;
+			return View("Index", result.ToList());
+		}
+
         // GET: Projects/Details/5
         public ActionResult Details(int? id)
         {
