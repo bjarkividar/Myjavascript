@@ -11,12 +11,14 @@ using MyJavaScript.Models.Entity;
 
 namespace MyJavaScript.Controllers
 {
-    public class ProjectsController : Controller
+	[Authorize]
+	public class ProjectsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+		private ApplicationDbContext db = new ApplicationDbContext();
+		
 
-        // GET: Projects
-        public ActionResult Index()
+		// GET: Projects
+		public ActionResult Index()
         {
             return View(db.Projects.ToList());
         }
@@ -89,7 +91,7 @@ namespace MyJavaScript.Controllers
             }
             return View(project);
         }
-
+		/*
         // GET: Projects/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -116,13 +118,6 @@ namespace MyJavaScript.Controllers
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        */
     }
 }
