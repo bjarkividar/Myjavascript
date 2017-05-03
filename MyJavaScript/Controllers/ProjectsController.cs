@@ -53,7 +53,9 @@ namespace MyJavaScript.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Projects.Add(project);
+				project.UserID = System.Web.HttpContext.Current.User.Identity.Name;
+
+				db.Projects.Add(project);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
