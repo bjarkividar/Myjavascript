@@ -93,7 +93,7 @@ namespace MyJavaScript.Controllers
             }
             return View(project);
         }
-		/*
+		
         // GET: Projects/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -120,6 +120,6 @@ namespace MyJavaScript.Controllers
             return RedirectToAction("Index");
         }
 
-        */
+        
     }
 }
