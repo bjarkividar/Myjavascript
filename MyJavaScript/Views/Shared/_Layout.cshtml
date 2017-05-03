@@ -20,6 +20,7 @@
                 </button>
                 @Html.ActionLink("My JavaScript", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
+
 @if (Request.IsAuthenticated)
 {
     <div class="navbar-collapse collapse">
@@ -28,6 +29,7 @@
             <li>@Html.ActionLink("New project", "About", "Home")</li>
             <li>@Html.ActionLink("My projects", "Contact", "Home")</li>
             <li>@Html.ActionLink("Shared with me", "Contact", "Home")</li>
+            <li>@Html.ActionLink("Create Project", "Create", "Projects")</li>
         </ul>
         @* Á eftir að búa til view og tengja við takkana*@
         @Html.Partial("_LoginPartial")
@@ -35,7 +37,7 @@
      
 }
          
-             
+            
         </div>
     </div>
     <div class="container body-content">
