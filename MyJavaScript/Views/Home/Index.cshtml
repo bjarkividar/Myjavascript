@@ -12,10 +12,14 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
     <body>
-
-       
-        @RenderPage("~/Views/Account/Login.cshtml")
-
+@if (Request.IsAuthenticated)
+{
+    @RenderPage("~/Views/Home/About.cshtml")
+}
+else
+{
+    @RenderPage("~/Views/Account/Login.cshtml")
+}
     </body>
 
 </html>
