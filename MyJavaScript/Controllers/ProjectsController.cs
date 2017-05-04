@@ -20,7 +20,13 @@ namespace MyJavaScript.Controllers
 		// GET: Projects
 		public ActionResult Index()
         {
-            return View(db.Projects.ToList());
+			IEnumerable<int> ids = from users in db.InvitedUsers
+								   where (users.Name == System.Web.HttpContext.Current.User.Identity.Name)
+								   select users.ProjectID;
+
+			IEnumerable<Project> result = db.Projects.Where(t => ids.Contains(t.ID));
+
+			return View(result.ToList());
         }
 
 		public ActionResult MyProjects()
@@ -63,9 +69,12 @@ namespace MyJavaScript.Controllers
             if (ModelState.IsValid)
             {
 				project.UserID = System.Web.HttpContext.Current.User.Identity.Name;
-
 				db.Projects.Add(project);
-                db.SaveChanges();
+				InvitedUser user = new InvitedUser();
+				user.Name = project.UserID;
+				user.ProjectID = project.ID;
+				db.InvitedUsers.Add(user);
+				db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
