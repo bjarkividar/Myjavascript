@@ -1,10 +1,11 @@
 ﻿body {
-    padding-top: 50px;
+    padding-top: 10px;
     padding-bottom: 20px;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
+    padding-top: 25px;
     padding-left: 15px;
     padding-right: 15px;
 }
@@ -23,8 +24,19 @@ textarea {
     max-width: 280px;
 }
 
-/*.navbar-inverse {
-     background-color: lightgrey;
-     border-color: #080808;
-     color: black;
-}*/
+.navBar
+{
+    background-color: transparent;
+    border-left: 0px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+
+ul.nav.navbar-nav
+{
+    padding-top: 17px;
+}
+
+
