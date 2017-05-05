@@ -138,6 +138,28 @@ namespace MyJavaScript.Controllers
             return RedirectToAction("Index");
         }
 
-        
-    }
+		public ActionResult ShareProject(int? id)
+		{
+			return View();
+		}
+
+		// POST: Projects/Create
+		// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult ShareProject(InvitedUser user)
+		{
+			if (ModelState.IsValid)
+			{
+				db.InvitedUsers.Add(user);
+				//project.InvitedUsers.Add(new InvitedUser() { Name = "", ProjectID = project.ID });
+				db.SaveChanges();
+				return RedirectToAction("Index");
+			}
+
+			return View(user);
+		}
+
+	}
 }
