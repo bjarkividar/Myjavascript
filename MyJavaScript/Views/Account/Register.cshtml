@@ -3,8 +3,10 @@
     ViewBag.Title = "Sign up";
 }
 
+@Styles.Render("~/Content/css")
+
 <ul class="nav nav-pills">
-    <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    <li >@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     <li class="active">@Html.ActionLink("Sign up", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
 </ul>
 

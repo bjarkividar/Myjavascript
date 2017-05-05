@@ -2,6 +2,7 @@
     ViewBag.Title = "Home Page";
 }
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,11 +15,11 @@
     <body>
 @if (Request.IsAuthenticated)
 {
-    @RenderPage("~/Views/Home/About.cshtml")
+
 }
 else
 {
-    @RenderPage("~/Views/Account/Login.cshtml")
+    @RenderPage("~/Views/Account/Login.cshtml")     
 }
     </body>
 
