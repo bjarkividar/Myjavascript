@@ -93,8 +93,21 @@ namespace MyJavaScript.Controllers
             {
                 return HttpNotFound();
             }
-            return View(project);
+
+			ViewBag.Code = "alert('Hello World');";
+
+			return View(project);
+
+			
         }
+
+		[HttpPost]
+		public ActionResult SaveCode(Project model)
+		{
+
+
+			return View("Project");
+		}
 
         // POST: Projects/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 

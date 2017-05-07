@@ -1,6 +1,8 @@
 ﻿body {
     padding-top: 10px;
     padding-bottom: 20px;
+    background: radial-gradient(circle, white, lightgrey, white);
+
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -36,7 +38,6 @@ textarea {
 
 ul.nav.navbar-nav
 {
-    padding-top: 17px;
+    padding: 17px;
 }
-
 
