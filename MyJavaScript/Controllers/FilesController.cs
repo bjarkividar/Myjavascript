@@ -79,13 +79,24 @@ namespace MyJavaScript.Controllers
             {
                 return HttpNotFound();
             }
-            return View(file);
+
+			ViewBag.Code = "alert('Hello World');";
+
+			return View(file);
         }
 
-        // POST: Files/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+		[HttpPost]
+		public ActionResult SaveCode(Project model)
+		{
+
+
+			return View("Edit");
+		}
+
+		// POST: Files/Edit/5
+		// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+		[HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Title,ContentType,Data,ProjectID")] File file)
         {

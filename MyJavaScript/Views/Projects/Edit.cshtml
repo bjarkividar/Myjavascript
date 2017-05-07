@@ -41,33 +41,10 @@
     </div>
 }
     
-<div id="editor">
-{
-    @ViewBag.Code
-}
-</div>
 
-@using (Html.BeginForm("SaveCode", "Projects", FormMethod.Post))   
-{
-    @Html.HiddenFor(m => m.Content, new { @id = "hidden_editor" })
-    <input type="submit" value="Save code" />
-}
 
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
 
-@section Scripts 
-{
 
-<script src="~/ThirdParty/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
-
-<script>
-    var editor = ace.edit("editor");
-    editor.setTheme("ace/theme/monokai");
-    editor.getSession().setMode("ace/mode/javascript");
-    $("form").submit(function () {
-        $("#hidden_editor").val(editor.getSession().getValue());
-    });
-</script>
-}

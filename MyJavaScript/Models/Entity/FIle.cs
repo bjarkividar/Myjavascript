@@ -12,5 +12,7 @@ namespace MyJavaScript.Models.Entity
 		public string ContentType { get; set; }
 		public byte[] Data { get; set; }
 		public int ProjectID { get; set; }
+		public string Content { get; set; }
+
 	}
 }

@@ -12,8 +12,6 @@ namespace MyJavaScript.Models.Entity
 		public string UserID { get; set; }
 		public virtual ICollection<InvitedUser> InvitedUsers { get; set; }
 
-		public string Content { get; set; }
-
 
 	}
 }
