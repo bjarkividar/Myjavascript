@@ -61,7 +61,7 @@ namespace MyJavaScript.Controllers
             {
                 db.Files.Add(file);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = file.ProjectID });
             }
 
             return View(file);
@@ -88,8 +88,6 @@ namespace MyJavaScript.Controllers
 		[HttpPost]
 		public ActionResult SaveCode(Project model)
 		{
-
-
 			return View("Edit");
 		}
 
@@ -104,7 +102,7 @@ namespace MyJavaScript.Controllers
             {
                 db.Entry(file).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = file.ProjectID });
             }
             return View(file);
         }
@@ -132,7 +130,7 @@ namespace MyJavaScript.Controllers
             File file = db.Files.Find(id);
             db.Files.Remove(file);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { id = file.ProjectID });
         }
 
         protected override void Dispose(bool disposing)
