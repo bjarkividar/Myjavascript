@@ -49,6 +49,7 @@ namespace MyJavaScript.Controllers
             
             return View();
         }
+        //----------------------------------------------------------------
 
         // POST: Files/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -81,7 +82,7 @@ namespace MyJavaScript.Controllers
             }
 
 			ViewBag.Code = "alert('Hello World');";
-
+			ViewBag.DocumentID = id;
 			return View(file);
         }
 
