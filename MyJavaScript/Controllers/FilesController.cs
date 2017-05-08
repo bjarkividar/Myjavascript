@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -77,16 +77,17 @@ namespace MyJavaScript.Controllers
             string code = file.Content;
 
             ViewBag.Code = code;
+            ViewBag.DocumentID = id;
             //Sækja kóðann úr gagnagrunni og senda hérna inn í breytuna, í staðin fyrir Hello World
 
-			return View(file);
+            return View(file);
         }
 
-		[HttpPost]
-		public ActionResult SaveCode(File model, int? id)
-		{
+        [HttpPost]
+        public ActionResult SaveCode(File model, int? id)
+        {
             File file = db.Files.Find(id);
-            if(file == null)
+            if (file == null)
             {
                 return HttpNotFound();
             }
@@ -95,7 +96,7 @@ namespace MyJavaScript.Controllers
             db.SaveChanges();
 
             return View("Edit", model);
-		}
+        }
 
 		// POST: Files/Edit/5
 		// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -108,7 +109,7 @@ namespace MyJavaScript.Controllers
             {
                 db.Entry(file).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = file.ProjectID });
             }
             return View(file);
         }
@@ -136,7 +137,7 @@ namespace MyJavaScript.Controllers
             File file = db.Files.Find(id);
             db.Files.Remove(file);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { id = file.ProjectID });
         }
 
         protected override void Dispose(bool disposing)
