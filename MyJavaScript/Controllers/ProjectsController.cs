@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using MyJavaScript.Models;
 using MyJavaScript.Models.Entity;
+using Microsoft.AspNet.Identity;
 
 namespace MyJavaScript.Controllers
 {
@@ -143,6 +144,10 @@ namespace MyJavaScript.Controllers
 
 		public ActionResult ShareProject(int? id)
 		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
 			return View();
 		}
 
@@ -155,10 +160,16 @@ namespace MyJavaScript.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				db.InvitedUsers.Add(user);
-				//project.InvitedUsers.Add(new InvitedUser() { Name = "", ProjectID = project.ID });
-				db.SaveChanges();
-				return RedirectToAction("Index");
+				if(db.Users.Any(x => x.UserName == user.Name))
+				{
+					db.InvitedUsers.Add(user);
+					db.SaveChanges();
+					return RedirectToAction("Index");
+				}
+				else
+				{
+					ViewBag.ErrorMessage = "User not in the system";
+				}
 			}
 
 			return View(user);
