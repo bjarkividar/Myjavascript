@@ -7,6 +7,7 @@
 <h2>Edit</h2>
 
 
+@*
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -33,11 +34,11 @@
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Data, htmlAttributes: new { @class = "control-label col-md-2" })
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Data, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Data, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -56,7 +57,7 @@
         </div>
     </div>
 
-}
+}*@
 
 <div id="editor">
     {
@@ -67,24 +68,24 @@
 @using (Html.BeginForm("SaveCode", "Files", FormMethod.Post))
 {
     @Html.HiddenFor(m => m.Content, new { @id = "hidden_editor" })
-    <input type="submit" value="Save code" />
+    @Html.HiddenFor(m => m.ID, new { @id = Url.RequestContext.RouteData.Values["ID"] })
+    <input type="submit" value = "Save code" /> 
 }
+
+@section scripts
+{
+    <script src="~/ThirdParty/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+            var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/monokai");
+        editor.getSession().setMode("ace/mode/javascript");
+        $("form").submit(function () {
+            $("#hidden_editor").val(editor.getSession().getValue());
+        });
+    </script>
+}
+
 
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
-
-@section Scripts
-{
-
-    <script src="~/ThirdParty/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
-
-    <script>
-    var editor = ace.edit("editor");
-    editor.setTheme("ace/theme/monokai");
-    editor.getSession().setMode("ace/mode/javascript");
-    $("form").submit(function () {
-        $("#hidden_editor").val(editor.getSession().getValue());
-    });
-    </script>
-}

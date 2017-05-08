@@ -18,13 +18,6 @@ namespace MyJavaScript.Controllers
         // GET: Files
         public ActionResult Index(int? id)
         {
-            /*IEnumerable<Project> pro = db.Projects;
-            IEnumerable <File> result = db.Files.Where(t => pro.Contains(t.ProjectID));
-            IEnumerable<File> result = from fi in db.Files
-                                       where fi.ProjectID == db.Projects.
-            //db.Projects.Where(t => ids.Contains(t.ID));
-            return View(db.Files.ToList());*/
-
             return View(db.Files.Where(x => x.ProjectID.Equals(id.Value)).ToList());
         }
 
@@ -80,17 +73,28 @@ namespace MyJavaScript.Controllers
                 return HttpNotFound();
             }
 
-			ViewBag.Code = "alert('Hello World');";
+			//ViewBag.Code = "alert('Hello World');";
+            string code = file.Content;
+
+            ViewBag.Code = code;
+            //Sækja kóðann úr gagnagrunni og senda hérna inn í breytuna, í staðin fyrir Hello World
 
 			return View(file);
         }
 
 		[HttpPost]
-		public ActionResult SaveCode(Project model)
+		public ActionResult SaveCode(File model, int? id)
 		{
+            File file = db.Files.Find(id);
+            if(file == null)
+            {
+                return HttpNotFound();
+            }
+            file.Content = model.Content;
+            db.Entry(file).State = EntityState.Modified;
+            db.SaveChanges();
 
-
-			return View("Edit");
+            return View("Edit", model);
 		}
 
 		// POST: Files/Edit/5
