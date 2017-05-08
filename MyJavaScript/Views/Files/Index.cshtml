@@ -4,13 +4,12 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h4>Project name: @Html.DisplayNameFor(model => model.Title)</h4>
 
 <p>
-    
-    @Html.ActionLink("Create New", "Create", new {id = Url.RequestContext.RouteData.Values["ID"]} )
+    @Html.ActionLink("Add File", "Create", new {id = Url.RequestContext.RouteData.Values["ID"]}, new { @class = "btn btn-info" })
 </p>
-<table class="table">
+<table class="table table-hover">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Title)
@@ -24,13 +23,13 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Title)
+            @*@Html.DisplayFor(modelItem => item.Title)*@
+            @Html.ActionLink(item.Title, "Edit", "Files", new { id = item.ID }, null)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ContentType)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
             @Html.ActionLink("Details", "Details", new { id=item.ID }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.ID })
         </td>
