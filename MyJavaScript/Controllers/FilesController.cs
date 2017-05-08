@@ -81,7 +81,7 @@ namespace MyJavaScript.Controllers
             }
 
 			ViewBag.Code = "alert('Hello World');";
-
+			ViewBag.DocumentID = id;
 			return View(file);
         }
 

@@ -4,15 +4,12 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
-
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>File</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.ID)
@@ -78,13 +75,46 @@
 {
 
     <script src="~/ThirdParty/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
-
+    <script src="~/Scripts/jquery.signalR-2.2.2.js"></script>
+    <script src="~/signalr/hubs"></script>
     <script>
+
+    var documentID = @ViewBag.DocumentID;
+    
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
     editor.getSession().setMode("ace/mode/javascript");
+
     $("form").submit(function () {
         $("#hidden_editor").val(editor.getSession().getValue());
+    });
+
+    var codeHub = $.connection.codeHub;
+    var silent = false;
+
+    codeHub.client.onChange =function (changeData)
+    {
+        console.log(changeData);
+
+        silent = true;
+        editor.getSession().getDocument().applyDelta(changeData);
+        silent = false;
+    };
+
+    $.connection.hub.start().done(function ()
+    {
+
+        codeHub.server.joinDocument(documentID);
+
+        editor.on("change", function (obj)
+        {
+            if(silent)
+            {
+                return;
+            }
+            console.log(obj);
+            codeHub.server.onChange(obj, documentID);
+        });
     });
     </script>
 }
