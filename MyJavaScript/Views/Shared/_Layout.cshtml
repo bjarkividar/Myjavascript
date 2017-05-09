@@ -1,64 +1,56 @@
 ﻿<!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - MyJavaScript</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-    <style type="text/css" media="screen">
-        #editor 
-        {
-            height: 500px;
-        }
-    </style>
-    <link rel="shortcut icon" href="~/myJavaScript1.png">
-</head>
-<body>
-  
-    <div class="navBar">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-
-                <a href='@Url.Action("Index", "Projects")'>
-                    <img src='@Url.Content("~/images/myJavaScript1.png")' class="javaLogo" height="85" />
-                </a>            
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>@ViewBag.Title - MyJavaScript</title>
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+        <style type="text/css" media="screen">
+            #editor 
+            {
+                height: 500px;
+            }
+        </style>
+        <link rel="shortcut icon" href="~/myJavaScript1.png">
+    </head>
+    <body>
+        <div class="navBar">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href='@Url.Action("Index", "Projects")'>
+                        <img src='@Url.Content("~/images/myJavaScript1.png")' class="javaLogo" height="85" />
+                    </a>            
+                </div>
+                @if (Request.IsAuthenticated)
+                {
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li>@Html.ActionLink("All projects", "Index", "Projects")</li>
+                            <li>@Html.ActionLink("My projects", "MyProjects", "Projects")</li>
+                            <li>@Html.ActionLink("Shared with me", "SharedProjects", "Projects")</li>
+                            @*<li>@Html.ActionLink("Create Project", "Create", "Projects")</li>*@
+                        </ul>
+                        @* Á eftir að búa til view og tengja við takkana*@
+                        @Html.Partial("_LoginPartial")
+                    </div>    
+                }          
             </div>
-
-@if (Request.IsAuthenticated)
-{
-    <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav">
-            <li>@Html.ActionLink("All projects", "Index", "Projects")</li>
-            <li>@Html.ActionLink("My projects", "MyProjects", "Projects")</li>
-            <li>@Html.ActionLink("Shared with me", "SharedProjects", "Projects")</li>
-            @*<li>@Html.ActionLink("Create Project", "Create", "Projects")</li>*@
-        </ul>
-        @* Á eftir að búa til view og tengja við takkana*@
-        @Html.Partial("_LoginPartial")
-    </div> 
-     
-}
-         
-            
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - MyJavaScript Application</p>
-        </footer>
-    </div>
-
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
-</body>
+        <div class="container body-content">
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - MyJavaScript Application</p>
+            </footer>
+        </div>
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+    </body>
 </html>

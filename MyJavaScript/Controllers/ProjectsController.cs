@@ -17,7 +17,6 @@ namespace MyJavaScript.Controllers
     {
 		private ApplicationDbContext db = new ApplicationDbContext();
 		
-
 		// GET: Projects
 		public ActionResult Index()
         {
@@ -28,7 +27,6 @@ namespace MyJavaScript.Controllers
 			IEnumerable<Project> result = db.Projects.Where(t => ids.Contains(t.ID));
 			return View(result.ToList());
         }
-
 		public ActionResult MyProjects()
 		{
 			IEnumerable<Project> result = from project in db.Projects
@@ -88,7 +86,6 @@ namespace MyJavaScript.Controllers
 				db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
             return View(project);
         }
 
@@ -104,10 +101,7 @@ namespace MyJavaScript.Controllers
             {
                 return HttpNotFound();
             }
-
-			return View(project);
-
-			
+			return View(project);			
         }
 
         // POST: Projects/Edit/5
@@ -211,6 +205,5 @@ namespace MyJavaScript.Controllers
 			}
 			base.Dispose(disposing);
 		}
-
 	}
 }
