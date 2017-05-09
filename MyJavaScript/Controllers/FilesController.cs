@@ -11,6 +11,7 @@ using MyJavaScript.Models.Entity;
 
 namespace MyJavaScript.Controllers
 {
+	[Authorize]
     public class FilesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
