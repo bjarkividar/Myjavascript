@@ -141,7 +141,10 @@ namespace MyJavaScript.Controllers
             return View(project);
         }
 
-        // POST: Projects/Delete/5
+        /* POST: Projects/Delete/5 
+		 If the user created the project he deletes the project and all files associated with the project,
+		 but if another user created it he only deletes his connection to the project so it doesn't appear
+		 on his page. */
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -170,7 +173,7 @@ namespace MyJavaScript.Controllers
 			db.SaveChanges();
 			return RedirectToAction("Index");
         }
-
+		//Get
 		public ActionResult ShareProject(int? id)
 		{
 			if (id == null)
@@ -180,9 +183,8 @@ namespace MyJavaScript.Controllers
 			return View();
 		}
 
-		// POST: Projects/Create
-		// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+		/* POST: Projects/ShareProject
+		Gives another user access to the project. */ 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult ShareProject(InvitedUser user)
