@@ -26,7 +26,6 @@ namespace MyJavaScript.Controllers
 								   select users.ProjectID;
 
 			IEnumerable<Project> result = db.Projects.Where(t => ids.Contains(t.ID));
-
 			return View(result.ToList());
         }
 
@@ -38,9 +37,20 @@ namespace MyJavaScript.Controllers
 										  select project;
 			return View("Index", result.ToList());
 		}
+		public ActionResult SharedProjects()
+		{
+			IEnumerable<int> ids = from users in db.InvitedUsers
+								   where (users.Name == System.Web.HttpContext.Current.User.Identity.Name)
+								   select users.ProjectID;
 
-        // GET: Projects/Details/5
-        public ActionResult Details(int? id)
+			IEnumerable<Project> result = db.Projects.Where(t => ids.Contains(t.ID));
+			result = from project in result
+					 where (project.UserID != System.Web.HttpContext.Current.User.Identity.Name)
+					 select project;
+			return View("Index", result.ToList());
+		}
+		// GET: Projects/Details/5
+		public ActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -173,6 +183,14 @@ namespace MyJavaScript.Controllers
 			}
 
 			return View(user);
+		}
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				db.Dispose();
+			}
+			base.Dispose(disposing);
 		}
 
 	}

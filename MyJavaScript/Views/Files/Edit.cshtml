@@ -59,9 +59,7 @@
 }*@
 
 <div id="editor">
-    {
     @ViewBag.Code
-    }
 </div>
 
 @using (Html.BeginForm("SaveCode", "Files", FormMethod.Post))
@@ -120,5 +118,5 @@
 
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index" , new { id = Model.ProjectID })
 </div>
