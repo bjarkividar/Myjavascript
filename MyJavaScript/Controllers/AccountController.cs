@@ -18,7 +18,6 @@ namespace MyJavaScript.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-
         public AccountController()
         {
         }
@@ -53,7 +52,6 @@ namespace MyJavaScript.Controllers
             }
         }
 
-        //
         // GET: /Account/Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
@@ -62,7 +60,6 @@ namespace MyJavaScript.Controllers
             return View();
         }
 
-        //
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
@@ -92,7 +89,6 @@ namespace MyJavaScript.Controllers
             }
         }
 
-        //
         // GET: /Account/VerifyCode
         [AllowAnonymous]
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
@@ -105,7 +101,6 @@ namespace MyJavaScript.Controllers
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
-        //
         // POST: /Account/VerifyCode
         [HttpPost]
         [AllowAnonymous]
@@ -135,7 +130,6 @@ namespace MyJavaScript.Controllers
             }
         }
 
-        //
         // GET: /Account/Register
         [AllowAnonymous]
         public ActionResult Register()
@@ -143,7 +137,6 @@ namespace MyJavaScript.Controllers
             return View();
         }
 
-        //
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
@@ -173,7 +166,6 @@ namespace MyJavaScript.Controllers
             return View(model);
         }
 
-        //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
@@ -186,7 +178,6 @@ namespace MyJavaScript.Controllers
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
-        //
         // GET: /Account/ForgotPassword
         [AllowAnonymous]
         public ActionResult ForgotPassword()
@@ -194,7 +185,6 @@ namespace MyJavaScript.Controllers
             return View();
         }
 
-        //
         // POST: /Account/ForgotPassword
         [HttpPost]
         [AllowAnonymous]
@@ -217,12 +207,10 @@ namespace MyJavaScript.Controllers
                 // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
                 // return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
-
             // If we got this far, something failed, redisplay form
             return View(model);
         }
 
-        //
         // GET: /Account/ForgotPasswordConfirmation
         [AllowAnonymous]
         public ActionResult ForgotPasswordConfirmation()
@@ -230,7 +218,6 @@ namespace MyJavaScript.Controllers
             return View();
         }
 
-        //
         // GET: /Account/ResetPassword
         [AllowAnonymous]
         public ActionResult ResetPassword(string code)
@@ -238,7 +225,6 @@ namespace MyJavaScript.Controllers
             return code == null ? View("Error") : View();
         }
 
-        //
         // POST: /Account/ResetPassword
         [HttpPost]
         [AllowAnonymous]
@@ -264,7 +250,6 @@ namespace MyJavaScript.Controllers
             return View();
         }
 
-        //
         // GET: /Account/ResetPasswordConfirmation
         [AllowAnonymous]
         public ActionResult ResetPasswordConfirmation()
@@ -272,7 +257,6 @@ namespace MyJavaScript.Controllers
             return View();
         }
 
-        //
         // POST: /Account/ExternalLogin
         [HttpPost]
         [AllowAnonymous]
@@ -283,7 +267,6 @@ namespace MyJavaScript.Controllers
             return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
         }
 
-        //
         // GET: /Account/SendCode
         [AllowAnonymous]
         public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
@@ -298,7 +281,6 @@ namespace MyJavaScript.Controllers
             return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
-        //
         // POST: /Account/SendCode
         [HttpPost]
         [AllowAnonymous]
@@ -318,7 +300,6 @@ namespace MyJavaScript.Controllers
             return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
         }
 
-        //
         // GET: /Account/ExternalLoginCallback
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
@@ -348,7 +329,6 @@ namespace MyJavaScript.Controllers
             }
         }
 
-        //
         // POST: /Account/ExternalLoginConfirmation
         [HttpPost]
         [AllowAnonymous]
@@ -381,12 +361,10 @@ namespace MyJavaScript.Controllers
                 }
                 AddErrors(result);
             }
-
             ViewBag.ReturnUrl = returnUrl;
             return View(model);
         }
 
-        //
         // POST: /Account/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -396,7 +374,6 @@ namespace MyJavaScript.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        //
         // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]
         public ActionResult ExternalLoginFailure()
@@ -420,10 +397,8 @@ namespace MyJavaScript.Controllers
                     _signInManager = null;
                 }
             }
-
             base.Dispose(disposing);
         }
-
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";

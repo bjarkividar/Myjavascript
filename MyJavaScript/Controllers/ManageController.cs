@@ -50,7 +50,6 @@ namespace MyJavaScript.Controllers
             }
         }
 
-        //
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
@@ -75,7 +74,6 @@ namespace MyJavaScript.Controllers
             return View(model);
         }
 
-        //
         // POST: /Manage/RemoveLogin
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -99,14 +97,12 @@ namespace MyJavaScript.Controllers
             return RedirectToAction("ManageLogins", new { Message = message });
         }
 
-        //
         // GET: /Manage/AddPhoneNumber
         public ActionResult AddPhoneNumber()
         {
             return View();
         }
 
-        //
         // POST: /Manage/AddPhoneNumber
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -130,7 +126,6 @@ namespace MyJavaScript.Controllers
             return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number });
         }
 
-        //
         // POST: /Manage/EnableTwoFactorAuthentication
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -145,7 +140,6 @@ namespace MyJavaScript.Controllers
             return RedirectToAction("Index", "Manage");
         }
 
-        //
         // POST: /Manage/DisableTwoFactorAuthentication
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -160,7 +154,6 @@ namespace MyJavaScript.Controllers
             return RedirectToAction("Index", "Manage");
         }
 
-        //
         // GET: /Manage/VerifyPhoneNumber
         public async Task<ActionResult> VerifyPhoneNumber(string phoneNumber)
         {
@@ -169,7 +162,6 @@ namespace MyJavaScript.Controllers
             return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
         }
 
-        //
         // POST: /Manage/VerifyPhoneNumber
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -194,7 +186,6 @@ namespace MyJavaScript.Controllers
             return View(model);
         }
 
-        //
         // POST: /Manage/RemovePhoneNumber
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -213,14 +204,12 @@ namespace MyJavaScript.Controllers
             return RedirectToAction("Index", new { Message = ManageMessageId.RemovePhoneSuccess });
         }
 
-        //
         // GET: /Manage/ChangePassword
         public ActionResult ChangePassword()
         {
             return View();
         }
 
-        //
         // POST: /Manage/ChangePassword
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -244,14 +233,12 @@ namespace MyJavaScript.Controllers
             return View(model);
         }
 
-        //
         // GET: /Manage/SetPassword
         public ActionResult SetPassword()
         {
             return View();
         }
 
-        //
         // POST: /Manage/SetPassword
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -271,12 +258,10 @@ namespace MyJavaScript.Controllers
                 }
                 AddErrors(result);
             }
-
             // If we got this far, something failed, redisplay form
             return View(model);
         }
 
-        //
         // GET: /Manage/ManageLogins
         public async Task<ActionResult> ManageLogins(ManageMessageId? message)
         {
@@ -299,7 +284,6 @@ namespace MyJavaScript.Controllers
             });
         }
 
-        //
         // POST: /Manage/LinkLogin
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -309,7 +293,6 @@ namespace MyJavaScript.Controllers
             return new AccountController.ChallengeResult(provider, Url.Action("LinkLoginCallback", "Manage"), User.Identity.GetUserId());
         }
 
-        //
         // GET: /Manage/LinkLoginCallback
         public async Task<ActionResult> LinkLoginCallback()
         {
@@ -329,10 +312,8 @@ namespace MyJavaScript.Controllers
                 _userManager.Dispose();
                 _userManager = null;
             }
-
             base.Dispose(disposing);
         }
-
 #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";

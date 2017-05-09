@@ -129,7 +129,9 @@ namespace MyJavaScript.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             File file = db.Files.Find(id);
+
             if (file == null)
             {
                 return HttpNotFound();

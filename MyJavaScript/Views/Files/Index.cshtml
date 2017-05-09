@@ -4,7 +4,6 @@
     ViewBag.Title = "Index";
 }
 
-@Styles.Render("~/Content/css")
 
 <p> 
     @Html.ActionLink("Create New File", "Create", new {id = Url.RequestContext.RouteData.Values["ID"]}, new { @class = "btn btn-info" })
