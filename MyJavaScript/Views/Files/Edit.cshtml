@@ -66,7 +66,7 @@
 
 @using (Html.BeginForm("SaveCode", "Files", FormMethod.Post))
 {
-    @Html.HiddenFor(m => m.Content, new { @id = "hidden_editor" })
+    @Html.HiddenFor(m => m.Content, new { @id = "hidden_editor" } )
     @Html.HiddenFor(m => m.ID, new { @id = Url.RequestContext.RouteData.Values["ID"] })
     <input type="submit" value = "Save code" /> 
 }
@@ -79,9 +79,9 @@
     <script>
 
     var documentID = @ViewBag.DocumentID;
-    
+  
     var editor = ace.edit("editor");
-    editor.setTheme("ace/theme/monokai");
+    editor.setTheme("ace/theme/sqlserver");
     editor.getSession().setMode("ace/mode/javascript");
 
     $("form").submit(function () {

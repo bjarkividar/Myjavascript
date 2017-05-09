@@ -95,7 +95,7 @@ namespace MyJavaScript.Controllers
             db.Entry(file).State = EntityState.Modified;
             db.SaveChanges();
 
-            return View("Edit", model);
+            return View("Edit");
         }
 
 		// POST: Files/Edit/5
