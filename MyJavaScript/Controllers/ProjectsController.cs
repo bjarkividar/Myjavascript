@@ -147,9 +147,28 @@ namespace MyJavaScript.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Project project = db.Projects.Find(id);
-            db.Projects.Remove(project);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+			if (project.UserID == System.Web.HttpContext.Current.User.Identity.Name)
+			{
+				IEnumerable<InvitedUser> invitations = from users in db.InvitedUsers
+													   where users.ProjectID == id
+													   select users;
+				IEnumerable<File> files = from file in db.Files
+													   where file.ProjectID == id
+													   select file;
+				db.Files.RemoveRange(files);
+				db.InvitedUsers.RemoveRange(invitations);
+				db.Projects.Remove(project);
+			}
+			else
+			{
+				IEnumerable<InvitedUser> invitations = from user in db.InvitedUsers
+													   where (user.ProjectID == id) && (user.Name == System.Web.HttpContext.Current.User.Identity.Name)
+													   select user;
+				db.InvitedUsers.RemoveRange(invitations);
+				
+			}
+			db.SaveChanges();
+			return RedirectToAction("Index");
         }
 
 		public ActionResult ShareProject(int? id)
