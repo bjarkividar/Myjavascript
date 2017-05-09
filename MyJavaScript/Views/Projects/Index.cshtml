@@ -11,6 +11,15 @@
     @Html.ActionLink("Create New Project", "Create", "Projects", new { @class = "btn btn-info" })
 
 </p>
+
+@using (Html.BeginForm())
+{
+    <p>
+        Title: @Html.TextBox("search") <br/>
+        <input type="submit" value="Search" />
+    </p>
+}
+ 
 <table class="table table-hover">
     <tr>
         <th>

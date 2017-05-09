@@ -19,9 +19,16 @@ namespace MyJavaScript.Controllers
 		
 
 		// GET: Projects
-		public ActionResult Index()
+		public ActionResult Index(string search)
         {
-			IEnumerable<int> ids = from users in db.InvitedUsers
+            var projects = from p in db.Projects
+                           select p;
+            if (!String.IsNullOrEmpty(search))
+            {
+                projects = projects.Where(x => x.Title.Contains(search));
+                return View(projects);
+            }
+            IEnumerable<int> ids = from users in db.InvitedUsers
 								   where (users.Name == System.Web.HttpContext.Current.User.Identity.Name)
 								   select users.ProjectID;
 
@@ -29,9 +36,22 @@ namespace MyJavaScript.Controllers
 			return View(result.ToList());
         }
 
-		public ActionResult MyProjects()
+       /* public ActionResult Index(string search)
+        {
+            var projects = from p in db.Projects
+                           select p;
+            if(!String.IsNullOrEmpty(search))
+            {
+                projects = projects.Where(x => x.Title.Contains(search));
+            }
+            return View(projects);
+        }*/
+
+
+		public ActionResult MyProjects(string search)
 		{
-			IEnumerable<Project> result = from project in db.Projects
+
+            IEnumerable<Project> result = from project in db.Projects
 										  where project.UserID == System.Web.HttpContext.Current.User.Identity.Name
 										  orderby project.Title
 										  select project;
