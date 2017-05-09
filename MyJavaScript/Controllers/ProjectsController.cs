@@ -36,20 +36,16 @@ namespace MyJavaScript.Controllers
 			return View(result.ToList());
         }
 
-       /* public ActionResult Index(string search)
-        {
-            var projects = from p in db.Projects
-                           select p;
-            if(!String.IsNullOrEmpty(search))
-            {
-                projects = projects.Where(x => x.Title.Contains(search));
-            }
-            return View(projects);
-        }*/
-
-
 		public ActionResult MyProjects(string search)
 		{
+
+            var projects = from p in db.Projects
+                           select p;
+            if (!String.IsNullOrEmpty(search))
+            {
+                projects = projects.Where(x => x.Title.Contains(search));
+                return View("Index", projects.ToList());
+            }
 
             IEnumerable<Project> result = from project in db.Projects
 										  where project.UserID == System.Web.HttpContext.Current.User.Identity.Name

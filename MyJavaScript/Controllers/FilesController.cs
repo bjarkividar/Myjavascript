@@ -17,8 +17,18 @@ namespace MyJavaScript.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Files
-        public ActionResult Index(int? id)
+        public ActionResult Index(int? id, string search)
         {
+            var file = from f in db.Files
+                       where id.Value == f.ProjectID
+                       select f;
+
+            if (!String.IsNullOrEmpty(search))
+            {
+                file = file.Where(x => x.Title.Contains(search));
+                return View(file);
+            }
+
             return View(db.Files.Where(x => x.ProjectID.Equals(id.Value)).ToList());
         }
 

@@ -15,8 +15,8 @@
 @using (Html.BeginForm())
 {
     <p>
-        Title: @Html.TextBox("search") <br/>
-        <input type="submit" value="Search" />
+        <input type="text" name="search" placeholder="Search for a project..">
+        <input type="submit" value="Search", new { class = "btn btn-info" } />
     </p>
 }
  
