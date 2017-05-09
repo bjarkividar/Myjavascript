@@ -58,9 +58,7 @@
 
 }*@
 
-<div id="editor">
-    @ViewBag.Code
-</div>
+<div id="editor">@ViewBag.Code</div>
 
 @using (Html.BeginForm("SaveCode", "Files", FormMethod.Post))
 {
