@@ -1,4 +1,5 @@
-﻿body {
+﻿body
+{
     padding-top: 10px;
     padding-bottom: 20px;
     background: radial-gradient(circle, white, lightgrey, white);
@@ -6,7 +7,8 @@
 }
 
 /* Set padding to keep content from hitting the edges */
-.body-content {
+.body-content
+{
     padding-top: 25px;
     padding-left: 15px;
     padding-right: 15px;
@@ -15,14 +17,16 @@
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
-.dl-horizontal dt {
+.dl-horizontal dt
+{
     white-space: normal;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
-textarea {
+textarea
+{
     max-width: 280px;
 }
 
@@ -35,10 +39,7 @@ textarea {
     font-weight: bold;
 }
 
-
 ul.nav.navbar-nav
 {
     padding: 17px;
 }
-
-
