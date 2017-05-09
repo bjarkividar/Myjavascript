@@ -67,7 +67,7 @@ namespace MyJavaScript.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            File file = db.Files.Find(id);
+            File file = db.Files.Find(id.Value);
             if (file == null)
             {
                 return HttpNotFound();
@@ -86,7 +86,7 @@ namespace MyJavaScript.Controllers
         [HttpPost]
         public ActionResult SaveCode(File model, int? id)
         {
-            File file = db.Files.Find(id);
+            File file = db.Files.Find(id.Value);
             if (file == null)
             {
                 return HttpNotFound();
@@ -94,7 +94,7 @@ namespace MyJavaScript.Controllers
             file.Content = model.Content;
             db.Entry(file).State = EntityState.Modified;
             db.SaveChanges();
-
+			return RedirectToAction("Edit", new { id = model.ID });
             return View("Edit", model);
         }
 
@@ -109,8 +109,8 @@ namespace MyJavaScript.Controllers
             {
                 db.Entry(file).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index", new { id = file.ProjectID });
-            }
+				return RedirectToAction("Index", new { id = file.ProjectID });
+			}
             return View(file);
         }
 
@@ -139,7 +139,6 @@ namespace MyJavaScript.Controllers
             db.SaveChanges();
             return RedirectToAction("Index", new { id = file.ProjectID });
         }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
