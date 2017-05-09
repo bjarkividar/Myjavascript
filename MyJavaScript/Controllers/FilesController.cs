@@ -96,6 +96,7 @@ namespace MyJavaScript.Controllers
             db.SaveChanges();
 			return RedirectToAction("Edit", new { id = model.ID });
             return View("Edit", model);
+
         }
 
 		// POST: Files/Edit/5
