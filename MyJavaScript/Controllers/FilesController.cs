@@ -95,7 +95,6 @@ namespace MyJavaScript.Controllers
             db.Entry(file).State = EntityState.Modified;
             db.SaveChanges();
 			return RedirectToAction("Edit", new { id = model.ID });
-            return View("Edit", model);
 
         }
 

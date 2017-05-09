@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MyJavaScript.Models.Entity;
 
 namespace MyJavaScript.Controllers
 {
@@ -10,7 +11,7 @@ namespace MyJavaScript.Controllers
 	{
 		public ActionResult Index()
 		{
-			return View();
+            return RedirectToAction("Index", "Projects");
 		}
 
 		public ActionResult About()
