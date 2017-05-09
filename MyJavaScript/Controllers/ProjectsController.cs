@@ -96,13 +96,19 @@ namespace MyJavaScript.Controllers
             {
 				project.UserID = System.Web.HttpContext.Current.User.Identity.Name;
 				db.Projects.Add(project);
+				db.SaveChanges();
 				InvitedUser user = new InvitedUser();
 				user.Name = project.UserID;
 				user.ProjectID = project.ID;
+				File file = new File();
+				file.Title = "index";
+				file.ProjectID = project.ID;
+				file.ContentType = "JavaScript";
+				db.Files.Add(file);
 				db.InvitedUsers.Add(user);
 				db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+				return RedirectToAction("Index");
+			}
             return View(project);
         }
 
