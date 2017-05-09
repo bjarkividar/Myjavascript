@@ -21,6 +21,7 @@ namespace MyJavaScript.Controllers
 		public ActionResult Index(string search)
         {
             var projects = from p in db.Projects
+                           where p.UserID == System.Web.HttpContext.Current.User.Identity.Name
                            select p;
             if (!String.IsNullOrEmpty(search))
             {
@@ -39,6 +40,7 @@ namespace MyJavaScript.Controllers
 		{
 
             var projects = from p in db.Projects
+                           where p.UserID == System.Web.HttpContext.Current.User.Identity.Name
                            select p;
             if (!String.IsNullOrEmpty(search))
             {
