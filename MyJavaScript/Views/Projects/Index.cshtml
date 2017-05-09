@@ -29,9 +29,9 @@
         </td>
         
         <td>
-            @Html.ActionLink("Share", "ShareProject", new { id = item.ID })
-            @Html.ActionLink("Details", "Details", new { id=item.ID })
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            @Html.ActionLink(" ", "ShareProject", new { id = item.ID }, new { @class = "glyphicon glyphicon-link"})
+            @*@Html.ActionLink("Details", "Details", new { id=item.ID })*@
+            @Html.ActionLink(" ", "Delete", new { id=item.ID }, new { @class = "glyphicon glyphicon-remove" })
         </td>
     </tr>
 }
