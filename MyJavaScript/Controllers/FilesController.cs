@@ -39,8 +39,7 @@ namespace MyJavaScript.Controllers
 
         // GET: Files/Create
         public ActionResult Create(int? id)
-        {
-            
+        {  
             return View();
         }
 
@@ -55,9 +54,8 @@ namespace MyJavaScript.Controllers
             {
                 db.Files.Add(file);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = file.ProjectID });
             }
-
             return View(file);
         }
 
@@ -96,7 +94,6 @@ namespace MyJavaScript.Controllers
             db.Entry(file).State = EntityState.Modified;
             db.SaveChanges();
 			return RedirectToAction("Edit", new { id = model.ID });
-
         }
 
 		// POST: Files/Edit/5
