@@ -31,6 +31,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Title)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserID)
+        </th>
     </tr>
 
 @foreach (var item in Model)
@@ -41,16 +44,14 @@
 
         </td>
         <td>
-             @*   @Html.LabelFor(model => model.UserID, htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.EditorFor(model => model.Data, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Data, "", new { @class = "text-danger" })*@
-            @Html.DisplayNameFor(model => model.UserID)
+            @Html.DisplayFor(modelItem => item.UserID)
         </td>
         
         <td>
             @Html.ActionLink(" ", "ShareProject", new { id = item.ID }, new { @class = "glyphicon glyphicon-link"})
 
-            <a href="#" class="deleteLink" id="@item.ID">Delete</a>
+            <a href="#" class="deleteLink" id="@item.ID"><span class="glyphicon glyphicon-remove"></span></a>
+
         </td>
     </tr>
 }

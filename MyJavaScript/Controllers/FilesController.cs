@@ -168,5 +168,13 @@ namespace MyJavaScript.Controllers
             }
             base.Dispose(disposing);
         }
+
+        [HttpGet]
+        public PartialViewResult GetDeletePartial(int id)
+        {
+            var deleteItem = db.Files.Find(id);
+
+            return PartialView("Delete", deleteItem);
+        }
     }
 }
