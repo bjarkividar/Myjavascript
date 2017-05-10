@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using MyJavaScript.Models;
 using MyJavaScript.Models.Entity;
 using Microsoft.AspNet.Identity;
+using System.Net.Mail;
 
 namespace MyJavaScript.Controllers
 {
@@ -220,6 +221,21 @@ namespace MyJavaScript.Controllers
 				{
 					db.InvitedUsers.Add(user);
 					db.SaveChanges();
+					try
+					{
+						using (MailMessage message = new MailMessage())
+						{
+							message.To.Add(user.Name);
+							message.Subject = "Invitation to a project.";
+							message.Body = "You have been invited to edit a project in MyJavascript";
+							using (SmtpClient client = new SmtpClient())
+							{
+								client.EnableSsl = true;
+								client.Send(message);
+							}
+						}
+					}
+					catch(Exception ex) { }
 					return RedirectToAction("Index");
 				}
 				else
