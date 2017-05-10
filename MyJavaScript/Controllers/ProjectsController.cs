@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using MyJavaScript.Models;
 using MyJavaScript.Models.Entity;
 using Microsoft.AspNet.Identity;
+using System.Net.Mail;
 
 namespace MyJavaScript.Controllers
 {
@@ -31,10 +32,8 @@ namespace MyJavaScript.Controllers
             {
                 return View(result.ToList());
             }
-
             result = result.Where(x => x.Title.Contains(search));
             return View(result);
-
         }
 
 		public ActionResult MyProjects(string search)
@@ -49,11 +48,9 @@ namespace MyJavaScript.Controllers
             {
                 return View("Index", result.ToList());
             }
-
             result = result.Where(x => x.Title.Contains(search));
             return View("Index", result.ToList());
         }
-
 
 		public ActionResult SharedProjects(string search)
 		{
@@ -72,25 +69,8 @@ namespace MyJavaScript.Controllers
             {
                 return View("Index", result.ToList());
             }
-
-
             result = result.Where(x => x.Title.Contains(search));
             return View("Index", result.ToList());
-
-        }
-		// GET: Projects/Details/5
-		public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Project project = db.Projects.Find(id);
-            if (project == null)
-            {
-                return HttpNotFound();
-            }
-            return View(project);
         }
 
         // GET: Projects/Create
@@ -126,8 +106,7 @@ namespace MyJavaScript.Controllers
 				else
 				{
 					ModelState.AddModelError("Title", "You already have a project with this name.");
-				}
-				
+				}				
 			}
             return View(project);
         }
@@ -204,8 +183,7 @@ namespace MyJavaScript.Controllers
 				IEnumerable<InvitedUser> invitations = from user in db.InvitedUsers
 													   where (user.ProjectID == id) && (user.Name == System.Web.HttpContext.Current.User.Identity.Name)
 													   select user;
-				db.InvitedUsers.RemoveRange(invitations);
-				
+				db.InvitedUsers.RemoveRange(invitations);				
 			}
 			db.SaveChanges();
 			return RedirectToAction("Index");
@@ -232,6 +210,21 @@ namespace MyJavaScript.Controllers
 				{
 					db.InvitedUsers.Add(user);
 					db.SaveChanges();
+					try
+					{
+						using (MailMessage message = new MailMessage())
+						{
+							message.To.Add(user.Name);
+							message.Subject = "Invitation to a project.";
+							message.Body = "You have been invited to edit a project in MyJavascript";
+							using (SmtpClient client = new SmtpClient())
+							{
+								client.EnableSsl = true;
+								client.Send(message);
+							}
+						}
+					}
+					catch(Exception ex) { }
 					return RedirectToAction("Index");
 				}
 				else
@@ -239,7 +232,6 @@ namespace MyJavaScript.Controllers
 					ViewBag.ErrorMessage = "User not in the system";
 				}
 			}
-
 			return View(user);
 		}
 		protected override void Dispose(bool disposing)
@@ -257,8 +249,5 @@ namespace MyJavaScript.Controllers
 
             return PartialView("Delete", deleteItem);
         }
-
-
     }
-
 }
