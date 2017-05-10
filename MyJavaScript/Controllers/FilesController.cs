@@ -102,9 +102,9 @@ namespace MyJavaScript.Controllers
 
             return View(file);
         }
-
         [HttpPost]
-        public ActionResult SaveCode(File model, int? id)
+		//[ValidateInput(false)]
+		public ActionResult SaveCode(File model, int? id)
         {
             File file = db.Files.Find(id.Value);
             if (file == null)
