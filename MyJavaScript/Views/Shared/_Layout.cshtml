@@ -30,7 +30,7 @@
                 @if (Request.IsAuthenticated)
                 {
                     <div class="navbar-collapse collapse">
-                        <ul class="nav navbar-nav">
+                        <ul class="nav navbar-nav" id="nav-text">
                             <li>@Html.ActionLink("All projects", "Index", "Projects")</li>
                             <li>@Html.ActionLink("My projects", "MyProjects", "Projects")</li>
                             <li>@Html.ActionLink("Shared with me", "SharedProjects", "Projects")</li>
