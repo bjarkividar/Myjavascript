@@ -7,7 +7,7 @@
 <h5>File: @Html.DisplayFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })</h5>
 <h5>Type: @Html.DisplayFor(model => model.ContentType, new { htmlAttributes = new { @class = "form-control" } })</h5>
 
-<div id="editor">ViewBag.Code</div>
+<div id="editor">@ViewBag.Code</div>
 
 @using (Html.BeginForm("SaveCode", "Files", FormMethod.Post))
 {
