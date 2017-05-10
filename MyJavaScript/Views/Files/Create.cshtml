@@ -27,6 +27,7 @@
                 @Html.DropDownListFor(model => model.ContentType,
                   new List<SelectListItem> {
                        new SelectListItem { Value = "JavaScript" , Text = "JavaScript" },
+                        new SelectListItem { Value = "CSS" , Text = "CSS" }
                     },
                   new { @class = "myselect" })
                 @Html.ValidationMessageFor(model => model.ContentType, "", new { @class = "text-danger" })
