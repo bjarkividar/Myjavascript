@@ -72,11 +72,23 @@
     <script src="~/signalr/hubs"></script>
     <script>
 
-    var documentID = @ViewBag.DocumentID;
+        var documentID = @ViewBag.DocumentID;
+
+        var contentType = '@ViewBag.ContentType';
   
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/sqlserver");
-    editor.getSession().setMode("ace/mode/javascript");
+
+    if(contentType == "JavaScript")
+    {
+        editor.getSession().setMode("ace/mode/javascript");
+    }else if(contentType == "Css")
+    {
+        editor.getSession().setMode("ace/mode/css");
+    }else if(contentType == "HTML")
+    {
+        editor.getSession().setMode("ace/mode/html");
+    }
 
     $("form").submit(function ()
     {
