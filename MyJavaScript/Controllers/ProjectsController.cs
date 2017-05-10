@@ -17,11 +17,18 @@ namespace MyJavaScript.Controllers
     {
 		private ApplicationDbContext db = new ApplicationDbContext();
 		
-
 		// GET: Projects
-		public ActionResult Index()
+		public ActionResult Index(string search)
         {
-			IEnumerable<int> ids = from users in db.InvitedUsers
+            var projects = from p in db.Projects
+                           where p.UserID == System.Web.HttpContext.Current.User.Identity.Name
+                           select p;
+            if (!String.IsNullOrEmpty(search))
+            {
+                projects = projects.Where(x => x.Title.Contains(search));
+                return View(projects);
+            }
+            IEnumerable<int> ids = from users in db.InvitedUsers
 								   where (users.Name == System.Web.HttpContext.Current.User.Identity.Name)
 								   select users.ProjectID;
 
@@ -29,9 +36,19 @@ namespace MyJavaScript.Controllers
 			return View(result.ToList());
         }
 
-		public ActionResult MyProjects()
+		public ActionResult MyProjects(string search)
 		{
-			IEnumerable<Project> result = from project in db.Projects
+
+            var projects = from p in db.Projects
+                           where p.UserID == System.Web.HttpContext.Current.User.Identity.Name
+                           select p;
+            if (!String.IsNullOrEmpty(search))
+            {
+                projects = projects.Where(x => x.Title.Contains(search));
+                return View("Index", projects.ToList());
+            }
+
+            IEnumerable<Project> result = from project in db.Projects
 										  where project.UserID == System.Web.HttpContext.Current.User.Identity.Name
 										  orderby project.Title
 										  select project;
@@ -81,14 +98,19 @@ namespace MyJavaScript.Controllers
             {
 				project.UserID = System.Web.HttpContext.Current.User.Identity.Name;
 				db.Projects.Add(project);
+				db.SaveChanges();
 				InvitedUser user = new InvitedUser();
 				user.Name = project.UserID;
 				user.ProjectID = project.ID;
+				File file = new File();
+				file.Title = "index";
+				file.ProjectID = project.ID;
+				file.ContentType = "JavaScript";
+				db.Files.Add(file);
 				db.InvitedUsers.Add(user);
 				db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
+				return RedirectToAction("Index");
+			}
             return View(project);
         }
 
@@ -104,10 +126,7 @@ namespace MyJavaScript.Controllers
             {
                 return HttpNotFound();
             }
-
-			return View(project);
-
-			
+			return View(project);			
         }
 
         // POST: Projects/Edit/5
@@ -141,7 +160,10 @@ namespace MyJavaScript.Controllers
             return View(project);
         }
 
-        // POST: Projects/Delete/5
+        /* POST: Projects/Delete/5 
+		 If the user created the project he deletes the project and all files associated with the project,
+		 but if another user created it he only deletes his connection to the project so it doesn't appear
+		 on his page. */
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -170,7 +192,7 @@ namespace MyJavaScript.Controllers
 			db.SaveChanges();
 			return RedirectToAction("Index");
         }
-
+		//Get
 		public ActionResult ShareProject(int? id)
 		{
 			if (id == null)
@@ -180,9 +202,8 @@ namespace MyJavaScript.Controllers
 			return View();
 		}
 
-		// POST: Projects/Create
-		// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+		/* POST: Projects/ShareProject
+		Gives another user access to the project. */ 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult ShareProject(InvitedUser user)
@@ -215,11 +236,11 @@ namespace MyJavaScript.Controllers
         public PartialViewResult GetDeletePartial(int id)
         {
             var deleteItem = db.Projects.Find(id);  
-            /*db.Projects.Remove(deleteItem);
-            db.SaveChanges();*/
+
             return PartialView("Delete", deleteItem);
         }
 
 
     }
+
 }

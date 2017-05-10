@@ -11,6 +11,5 @@ namespace MyJavaScript.Models.Entity
 		public string Name { get; set; }
 		public int ProjectID { get; set; }
 		public virtual Project Project { get; set; }
-
 	}
 }

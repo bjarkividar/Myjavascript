@@ -6,7 +6,6 @@
 
 @*@<h4>Project name: @Html.DisplayNameFor(model => model.Title)</h4>
 
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -55,12 +54,9 @@
             </div>
         </div>
     </div>
-
 }*@
 
-<div id="editor">
-    @ViewBag.Code
-</div>
+<div id="editor">@ViewBag.Code</div>
 
 @using (Html.BeginForm("SaveCode", "Files", FormMethod.Post))
 {
@@ -82,7 +78,8 @@
     editor.setTheme("ace/theme/sqlserver");
     editor.getSession().setMode("ace/mode/javascript");
 
-    $("form").submit(function () {
+    $("form").submit(function ()
+    {
         $("#hidden_editor").val(editor.getSession().getValue());
     });
 
@@ -100,7 +97,6 @@
 
     $.connection.hub.start().done(function ()
     {
-
         codeHub.server.joinDocument(documentID);
 
         editor.on("change", function (obj)
@@ -115,7 +111,6 @@
     });
     </script>
 }
-
 
 <div>
     @Html.ActionLink("Back to List", "Index" , new { id = Model.ProjectID })

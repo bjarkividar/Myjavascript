@@ -4,11 +4,17 @@
     ViewBag.Title = "Index";
 }
 
-@*<h4>Project name: @Html.DisplayNameFor(model => model.Title)</h4>*@
-
 <p> 
     @Html.ActionLink("Create New File", "Create", new {id = Url.RequestContext.RouteData.Values["ID"]}, new { @class = "btn btn-info" })
 </p>
+
+@using (Html.BeginForm())
+{
+    <p>
+        <input type="text" name="search" placeholder="Search for a file..">
+        <input type="submit" value="Search" , new { class="btn btn-info" } />
+    </p>
+}
 <table class="table table-hover">
     <tr>
         <th>
@@ -23,17 +29,14 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @*@Html.DisplayFor(modelItem => item.Title)*@
             @Html.ActionLink(item.Title, "Edit", "Files", new { id = item.ID }, null)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ContentType)
         </td>
         <td>
-            @*@Html.ActionLink("Details", "Details", new { id=item.ID }) |*@
             @Html.ActionLink(" ", "Delete", new { id=item.ID }, new { @class = "glyphicon glyphicon-remove" })
         </td>
     </tr>
 }
-
 </table>

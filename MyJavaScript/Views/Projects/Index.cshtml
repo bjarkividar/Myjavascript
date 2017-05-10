@@ -11,12 +11,24 @@
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 </head>
 
+<<<<<<< HEAD
 <h2>Projects</h2>
 
+=======
+>>>>>>> a483df934a3c045c6d458d53698dfeb316026bf7
 <p>
     @Html.ActionLink("Create New Project", "Create", "Projects", new { @class = "btn btn-info" })
 
 </p>
+
+@using (Html.BeginForm())
+{
+    <p>
+        <input type="text" name="search" placeholder="Search for a project..">
+        <input type="submit" value="Search", new { class = "btn btn-info" } />
+    </p>
+}
+ 
 <table class="table table-hover">
     <tr>
         <th>
@@ -24,7 +36,8 @@
         </th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
     <tr>
         <td>
             @*@@Html.DisplayFor(modelItem => item.Title)*@
@@ -40,7 +53,6 @@
         </td>
     </tr>
 }
-
 </table>
 
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">

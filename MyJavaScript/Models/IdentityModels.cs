@@ -21,7 +21,6 @@ namespace MyJavaScript.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-
 		public DbSet<Project> Projects { get; set; }
 		public DbSet<File> Files { get; set; }
 		public DbSet<InvitedUser> InvitedUsers { get; set; }

@@ -1,4 +1,4 @@
-﻿@model MyJavaScript.Models.Entity.Project
+﻿﻿@model MyJavaScript.Models.Entity.Project
 
 @{
     ViewBag.Title = "Delete";
@@ -10,36 +10,6 @@
 <div>
     @*<h4>Project: @Html.DisplayNameFor(model => model.Title)</h4>*@
     <hr />
-    @*<dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UserID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UserID)
-        </dd>
-
-    </dl>*@
-
-    @*
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
-        </div>
-    }*@
-
-
 
     @using (Html.BeginForm("Delete", "Projects", new { id = Model.ID }, FormMethod.Post, new { id = "deleteForm" }))
     {
@@ -51,7 +21,6 @@
         </div>
     }
 
-
 </div>
 
 @section Scripts {
@@ -62,3 +31,5 @@
         });
 </script> 
     }
+
+

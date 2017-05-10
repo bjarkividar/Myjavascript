@@ -17,8 +17,18 @@ namespace MyJavaScript.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Files
-        public ActionResult Index(int? id)
+        public ActionResult Index(int? id, string search)
         {
+            var file = from f in db.Files
+                       where id.Value == f.ProjectID
+                       select f;
+
+            if (!String.IsNullOrEmpty(search))
+            {
+                file = file.Where(x => x.Title.Contains(search));
+                return View(file);
+            }
+
             return View(db.Files.Where(x => x.ProjectID.Equals(id.Value)).ToList());
         }
 
@@ -52,13 +62,22 @@ namespace MyJavaScript.Controllers
         { 
             if (ModelState.IsValid)
             {
-                db.Files.Add(file);
-                db.SaveChanges();
-                return RedirectToAction("Index", new { id = file.ProjectID });
+				IEnumerable<File> result = from files in db.Files
+										 where (files.Title == file.Title) && (files.ProjectID == file.ProjectID)
+										 select files;
+				if (result.FirstOrDefault() == null)
+				{
+					db.Files.Add(file);
+					db.SaveChanges();
+					return RedirectToAction("Index", new { id = file.ProjectID });
+				}
+				else
+				{
+					ModelState.AddModelError("Title", "There is already a file with this name in this project.");
+				}
             }
             return View(file);
         }
-
         // GET: Files/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -119,7 +138,9 @@ namespace MyJavaScript.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             File file = db.Files.Find(id);
+
             if (file == null)
             {
                 return HttpNotFound();
