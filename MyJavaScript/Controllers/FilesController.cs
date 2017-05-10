@@ -19,6 +19,12 @@ namespace MyJavaScript.Controllers
         // GET: Files
         public ActionResult Index(int? id, string search)
         {
+            var project = (from p in db.Projects
+                          where id.Value == p.ID
+                          select p.Title).FirstOrDefault();
+
+            ViewBag.Name = project;
+
             var file = from f in db.Files
                        where id.Value == f.ProjectID
                        select f;

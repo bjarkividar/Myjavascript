@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Index";
+
 }
 
 <head>
@@ -11,7 +12,8 @@
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 </head>
 
-<h2>Projects</h2>
+<h2>@ViewBag.Name</h2>
+
 
 <p>
     @Html.ActionLink("Create New Project", "Create", "Projects", new { @class = "btn btn-info" })
@@ -63,8 +65,8 @@
             </div>
             <div id="deleteModalBody" class="modal-body"></div>
             <div class="modal-footer">
-                <button type="button" id="deleteBtn" class="btn btn-default" data-dismiss="modal">Delete</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" id="deleteBtn" class="btn btn-info" data-dismiss="modal">Delete</button>
+                <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>

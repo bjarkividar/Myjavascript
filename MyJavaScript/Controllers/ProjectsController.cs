@@ -20,6 +20,8 @@ namespace MyJavaScript.Controllers
 		// GET: Projects
 		public ActionResult Index(string search)
         {
+            ViewBag.Name = "All Projects";
+
             IEnumerable<int> ids = from users in db.InvitedUsers
 								   where (users.Name == System.Web.HttpContext.Current.User.Identity.Name)
 								   select users.ProjectID;
@@ -37,6 +39,8 @@ namespace MyJavaScript.Controllers
 
 		public ActionResult MyProjects(string search)
 		{
+            ViewBag.Name = "My Projects";
+
             IEnumerable<Project> result = from project in db.Projects
 										  where project.UserID == System.Web.HttpContext.Current.User.Identity.Name
 										  orderby project.Title
@@ -53,14 +57,16 @@ namespace MyJavaScript.Controllers
 
 		public ActionResult SharedProjects(string search)
 		{
-                IEnumerable<int> ids = from users in db.InvitedUsers
+            ViewBag.Name = "Shared with me";
+
+            IEnumerable<int> ids = from users in db.InvitedUsers
                                        where (users.Name == System.Web.HttpContext.Current.User.Identity.Name)
                                        select users.ProjectID;
 
-                IEnumerable<Project> result = db.Projects.Where(t => ids.Contains(t.ID));
-                result = from project in result
-                         where (project.UserID != System.Web.HttpContext.Current.User.Identity.Name)
-                         select project;
+            IEnumerable<Project> result = db.Projects.Where(t => ids.Contains(t.ID));
+            result = from project in result
+                     where (project.UserID != System.Web.HttpContext.Current.User.Identity.Name)
+                     select project;
    
             if(String.IsNullOrEmpty(search))
             {
