@@ -31,14 +31,18 @@
 {
     <tr>
         <td>
-            @*@@Html.DisplayFor(modelItem => item.Title)*@
             @Html.ActionLink(item.Title, "Index", "Files", new { id = item.ID }, null)
 
+        </td>
+        <td>
+             @*   @Html.LabelFor(model => model.UserID, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.Data, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Data, "", new { @class = "text-danger" })*@
+            @Html.DisplayNameFor(model => model.UserID)
         </td>
         
         <td>
             @Html.ActionLink(" ", "ShareProject", new { id = item.ID }, new { @class = "glyphicon glyphicon-link"})
-            @*@Html.ActionLink("Details", "Details", new { id=item.ID })*@
             @Html.ActionLink(" ", "Delete", new { id=item.ID }, new { @class = "glyphicon glyphicon-remove"})
         </td>
     </tr>
