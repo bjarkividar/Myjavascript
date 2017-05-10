@@ -97,19 +97,25 @@ namespace MyJavaScript.Controllers
             if (ModelState.IsValid)
             {
 				project.UserID = System.Web.HttpContext.Current.User.Identity.Name;
-				db.Projects.Add(project);
-				db.SaveChanges();
-				InvitedUser user = new InvitedUser();
-				user.Name = project.UserID;
-				user.ProjectID = project.ID;
-				File file = new File();
-				file.Title = "index";
-				file.ProjectID = project.ID;
-				file.ContentType = "JavaScript";
-				db.Files.Add(file);
-				db.InvitedUsers.Add(user);
-				db.SaveChanges();
-				return RedirectToAction("Index");
+				IEnumerable<Project> result = from proj in db.Projects
+										   where (proj.Title == project.Title) && (proj.UserID == project.UserID)
+										   select proj;
+				if (result.FirstOrDefault() == null)
+				{
+					db.Projects.Add(project);
+					db.SaveChanges();
+					InvitedUser user = new InvitedUser() { Name = project.UserID, ProjectID = project.ID };
+					File file = new File() { Title = "index", ProjectID = project.ID, ContentType = "JavaScript" };
+					db.Files.Add(file);
+					db.InvitedUsers.Add(user);
+					db.SaveChanges();
+					return RedirectToAction("Index");
+				}
+				else
+				{
+					ModelState.AddModelError("Title", "You already have a project with this name.");
+				}
+				
 			}
             return View(project);
         }
