@@ -4,7 +4,6 @@
     ViewBag.Title = "Create";
 }
 
-
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
@@ -29,7 +28,6 @@
                         new SelectListItem { Value = "JavaScript" , Text = "JavaScript" },
                         new SelectListItem { Value = "Css" , Text = "Css" },
                         new SelectListItem { Value = "HTML" , Text = "HTML" },
-
                     },
                   new { @class = "myselect" })
                 @Html.ValidationMessageFor(model => model.ContentType, "", new { @class = "text-danger" })
@@ -69,6 +67,7 @@
     @Html.ActionLink("Back to List", "Index")
 </div>
 
-@section Scripts {
+@section Scripts
+{
     @Scripts.Render("~/bundles/jqueryval")
 }
