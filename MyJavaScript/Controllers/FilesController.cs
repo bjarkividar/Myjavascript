@@ -28,23 +28,7 @@ namespace MyJavaScript.Controllers
                 file = file.Where(x => x.Title.Contains(search));
                 return View(file);
             }
-
             return View(db.Files.Where(x => x.ProjectID.Equals(id.Value)).ToList());
-        }
-
-        // GET: Files/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            File file = db.Files.Find(id);
-            if (file == null)
-            {
-                return HttpNotFound();
-            }
-            return View(file);
         }
 
         // GET: Files/Create
@@ -102,9 +86,9 @@ namespace MyJavaScript.Controllers
 
             return View(file);
         }
-
         [HttpPost]
-        public ActionResult SaveCode(File model, int? id)
+		//[ValidateInput(false)]
+		public ActionResult SaveCode(File model, int? id)
         {
             File file = db.Files.Find(id.Value);
             if (file == null)

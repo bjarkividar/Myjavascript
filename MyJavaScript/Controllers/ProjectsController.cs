@@ -21,65 +21,50 @@ namespace MyJavaScript.Controllers
 		// GET: Projects
 		public ActionResult Index(string search)
         {
-            var projects = from p in db.Projects
-                           where p.UserID == System.Web.HttpContext.Current.User.Identity.Name
-                           select p;
-            if (!String.IsNullOrEmpty(search))
-            {
-                projects = projects.Where(x => x.Title.Contains(search));
-                return View(projects);
-            }
             IEnumerable<int> ids = from users in db.InvitedUsers
 								   where (users.Name == System.Web.HttpContext.Current.User.Identity.Name)
 								   select users.ProjectID;
 
 			IEnumerable<Project> result = db.Projects.Where(t => ids.Contains(t.ID));
-			return View(result.ToList());
+            if(String.IsNullOrEmpty(search))
+            {
+                return View(result.ToList());
+            }
+            result = result.Where(x => x.Title.Contains(search));
+            return View(result);
         }
 
 		public ActionResult MyProjects(string search)
 		{
-
-            var projects = from p in db.Projects
-                           where p.UserID == System.Web.HttpContext.Current.User.Identity.Name
-                           select p;
-            if (!String.IsNullOrEmpty(search))
-            {
-                projects = projects.Where(x => x.Title.Contains(search));
-                return View("Index", projects.ToList());
-            }
-
             IEnumerable<Project> result = from project in db.Projects
 										  where project.UserID == System.Web.HttpContext.Current.User.Identity.Name
 										  orderby project.Title
 										  select project;
-			return View("Index", result.ToList());
-		}
-		public ActionResult SharedProjects()
-		{
-			IEnumerable<int> ids = from users in db.InvitedUsers
-								   where (users.Name == System.Web.HttpContext.Current.User.Identity.Name)
-								   select users.ProjectID;
+            if(String.IsNullOrEmpty(search))
+            {
+                return View("Index", result.ToList());
+            }
+            result = result.Where(x => x.Title.Contains(search));
+            return View("Index", result.ToList());
+        }
 
-			IEnumerable<Project> result = db.Projects.Where(t => ids.Contains(t.ID));
-			result = from project in result
-					 where (project.UserID != System.Web.HttpContext.Current.User.Identity.Name)
-					 select project;
-			return View("Index", result.ToList());
-		}
-		// GET: Projects/Details/5
-		public ActionResult Details(int? id)
-        {
-            if (id == null)
+		public ActionResult SharedProjects(string search)
+		{
+                IEnumerable<int> ids = from users in db.InvitedUsers
+                                       where (users.Name == System.Web.HttpContext.Current.User.Identity.Name)
+                                       select users.ProjectID;
+
+                IEnumerable<Project> result = db.Projects.Where(t => ids.Contains(t.ID));
+                result = from project in result
+                         where (project.UserID != System.Web.HttpContext.Current.User.Identity.Name)
+                         select project;
+   
+            if(String.IsNullOrEmpty(search))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("Index", result.ToList());
             }
-            Project project = db.Projects.Find(id);
-            if (project == null)
-            {
-                return HttpNotFound();
-            }
-            return View(project);
+            result = result.Where(x => x.Title.Contains(search));
+            return View("Index", result.ToList());
         }
 
         // GET: Projects/Create
@@ -115,8 +100,7 @@ namespace MyJavaScript.Controllers
 				else
 				{
 					ModelState.AddModelError("Title", "You already have a project with this name.");
-				}
-				
+				}				
 			}
             return View(project);
         }
@@ -193,8 +177,7 @@ namespace MyJavaScript.Controllers
 				IEnumerable<InvitedUser> invitations = from user in db.InvitedUsers
 													   where (user.ProjectID == id) && (user.Name == System.Web.HttpContext.Current.User.Identity.Name)
 													   select user;
-				db.InvitedUsers.RemoveRange(invitations);
-				
+				db.InvitedUsers.RemoveRange(invitations);				
 			}
 			db.SaveChanges();
 			return RedirectToAction("Index");
@@ -243,7 +226,6 @@ namespace MyJavaScript.Controllers
 					ViewBag.ErrorMessage = "User not in the system";
 				}
 			}
-
 			return View(user);
 		}
 		protected override void Dispose(bool disposing)
@@ -261,8 +243,5 @@ namespace MyJavaScript.Controllers
 
             return PartialView("Delete", deleteItem);
         }
-
-
     }
-
 }
