@@ -35,8 +35,49 @@
             @Html.DisplayFor(modelItem => item.ContentType)
         </td>
         <td>
-            @Html.ActionLink(" ", "Delete", new { id=item.ID }, new { @class = "glyphicon glyphicon-remove" })
+            @*@Html.ActionLink(" ", "Delete", new { id=item.ID }, new { @class = "glyphicon glyphicon-remove" })*@
+            <a href="#" class="deleteLink" id="@item.ID">Delete</a>
+
         </td>
     </tr>
 }
 </table>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="deleteModalLabel">Are you sure you want to delete project?</h4>
+            </div>
+            <div id="deleteModalBody" class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" id="deleteBtn" class="btn btn-default" data-dismiss="modal">Delete</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        $(function () {
+        $("#deleteModal").modal("hide");
+
+        $(".deleteLink").on("click", function () {
+            $("#deleteBtn").on("click", function () {
+                $("#deleteForm").submit();
+            });
+            $.get('@Url.Action("GetDeletePartial")', { id: $(this).prop("id") }, function (data) {
+                $("#deleteModalBody").html(data);
+
+                $("#deleteModal").modal("show");
+            });
+
+        });
+    });
+
+    </script>
+
+}
