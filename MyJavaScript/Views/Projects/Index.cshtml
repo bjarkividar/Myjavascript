@@ -41,12 +41,10 @@
     <tr>
         <td>
             @Html.ActionLink(item.Title, "Index", "Files", new { id = item.ID }, null)
-
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.UserID)
-        </td>
-        
+        </td>       
         <td>
             @Html.ActionLink(" ", "ShareProject", new { id = item.ID }, new { @class = "glyphicon glyphicon-link"})
 
@@ -66,14 +64,14 @@
             <div id="deleteModalBody" class="modal-body"></div>
             <div class="modal-footer">
                 <button type="button" id="deleteBtn" class="btn btn-default" data-dismiss="modal">Delete</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>
 </div>
 
-
-@section Scripts {
+@section Scripts
+{
 <script>
         $(function () {
         $("#deleteModal").modal("hide");
@@ -87,10 +85,7 @@
 
                 $("#deleteModal").modal("show"); 
             });
-
         });
     });
-
 </script>
-
 }
