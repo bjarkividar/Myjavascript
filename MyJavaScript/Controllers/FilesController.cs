@@ -15,7 +15,7 @@ namespace MyJavaScript.Controllers
     public class FilesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
+		public string ContentType;
         // GET: Files
         public ActionResult Index(int? id, string search)
         {
@@ -93,8 +93,10 @@ namespace MyJavaScript.Controllers
 
 			//ViewBag.Code = "alert('Hello World');";
             string code = file.Content;
+			ContentType = file.ContentType;
 
-            ViewBag.Code = code;
+			ViewBag.ContentType = ContentType;
+			ViewBag.Code = code;
             ViewBag.DocumentID = id;
             //Sækja kóðann úr gagnagrunni og senda hérna inn í breytuna, í staðin fyrir Hello World
 

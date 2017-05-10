@@ -24,9 +24,10 @@
             @Html.LabelFor(model => model.ContentType, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.ContentType,
-                  new List<SelectListItem> {
-                       new SelectListItem { Value = "JavaScript" , Text = "JavaScript" },
-                        new SelectListItem { Value = "CSS" , Text = "CSS" }
+                        new List<SelectListItem> {
+                        new SelectListItem { Value = "JavaScript" , Text = "JavaScript" },
+                        new SelectListItem { Value = "Css" , Text = "Css" },
+                        new SelectListItem { Value = "HTML" , Text = "HTML" },
                     },
                   new { @class = "myselect" })
                 @Html.ValidationMessageFor(model => model.ContentType, "", new { @class = "text-danger" })
