@@ -123,6 +123,7 @@ namespace MyJavaScript.Models
 			{
 				db.InvitedUsers.Add(user);
 				db.SaveChanges();
+				_invitedUsers.Add(user);
 				try
 				{
 					using (MailMessage message = new MailMessage())
