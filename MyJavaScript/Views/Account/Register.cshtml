@@ -6,8 +6,8 @@
 @Styles.Render("~/Content/css")
 
 <ul class="nav nav-pills">
-    <li >@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    <li class="active">@Html.ActionLink("Sign up", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+    <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    <li>@Html.ActionLink("Sign up", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "btn btn-info" })</li>
 </ul>
 
 <h2>@ViewBag.Title.</h2>
@@ -40,7 +40,7 @@
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Register" />
+            <input type="submit" class="btn btn-info" value="Register" />
         </div>
     </div>
 }

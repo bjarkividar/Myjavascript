@@ -5,9 +5,10 @@
 }
 
 <h2>Share Project</h2>
+@* @using (Html.BeginForm("ShareProject", "Projects", new { id = Model.ID }, FormMethod.Post, new { id = "shareForm" }))*@
 
 @using (Html.BeginForm())
-{
+    {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
@@ -37,5 +38,11 @@
 
 @section Scripts
 {
-    @Scripts.Render("~/bundles/jqueryval")
+   @* @Scripts.Render("~/bundles/jqueryval")*@
+<script>
+    $("#shareBtn").on("click", function () {
+        debugger;
+            $("#shareForm").submit();
+        });
+</script> 
 }

@@ -29,6 +29,7 @@
         <th></th>
     </tr>
 
+
 @foreach (var item in Model)
 {
     <tr>
@@ -46,6 +47,10 @@
     </tr>
 }
 </table>
+
+<div>
+    @Html.ActionLink("Back to List", "Index", "Projects")
+</div>
 
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
