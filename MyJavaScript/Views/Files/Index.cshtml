@@ -41,7 +41,9 @@
             @*@Html.ActionLink(" ", "Delete", new { id=item.ID }, new { @class = "glyphicon glyphicon-remove" })*@
 
             <a href="#" class="deleteLink" id="@item.ID"><span class="glyphicon glyphicon-remove"></span></a>
+            @Html.ActionLink(" ", "EditInfo", new { id = item.ID }, new { @class = "glyphicon glyphicon-pencil" })
         </td>
+
     </tr>
 }
 </table>
