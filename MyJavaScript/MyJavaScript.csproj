@@ -217,8 +217,10 @@
     <Compile Include="Models\Entity\File.cs" />
     <Compile Include="Models\Entity\InvitedUser.cs" />
     <Compile Include="Models\Entity\Project.cs" />
+    <Compile Include="Models\FileService.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ProjectService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -294,6 +296,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="bin\" />
     <Folder Include="Models\ViewModels\" />
     <Folder Include="Services\" />
     <Folder Include="ThirdParty\src-min-noconflict\" />

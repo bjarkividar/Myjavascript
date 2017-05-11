@@ -5,9 +5,12 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.UI.WebControls;
+
 using System.Web.Mvc;
 using MyJavaScript.Models;
 using MyJavaScript.Models.Entity;
+
 
 namespace MyJavaScript.Controllers
 {
@@ -165,7 +168,8 @@ namespace MyJavaScript.Controllers
             var deleteItem = db.Files.Find(id);
 
             return PartialView("Delete", deleteItem);
-        }
+		}
+		/*
 		public ActionResult UploadFile (string myUploader)
 		{
 			using (CuteWebUI.MvcUploader uploader = new CuteWebUI.MvcUploader(System.Web.HttpContext.Current))
@@ -178,5 +182,7 @@ namespace MyJavaScript.Controllers
 			}
 			return View();
 		}
+		*/
+		
     }
 }
