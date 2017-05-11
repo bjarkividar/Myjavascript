@@ -74,13 +74,12 @@ namespace MyJavaScript.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            File file = db.Files.Find(id.Value);
+			File file = FileService.Instance.FindFile(id.Value);
             if (file == null)
             {
                 return HttpNotFound();
             }
 
-            //ViewBag.Code = "alert('Hello World');";
             string code = file.Content;
             ContentType = file.ContentType;
 
@@ -95,7 +94,11 @@ namespace MyJavaScript.Controllers
         [ValidateInput(false)]
         public ActionResult SaveCode(File model, int? id)
         {
-            File file = db.Files.Find(id.Value);
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			File file = FileService.Instance.FindFile(id.Value);
             if (file == null)
             {
                 return HttpNotFound();
@@ -103,6 +106,7 @@ namespace MyJavaScript.Controllers
             file.Content = model.Content;
             db.Entry(file).State = EntityState.Modified;
             db.SaveChanges();
+			FileService.Instance.Edit(file);
             return RedirectToAction("Edit", new { id = model.ID });
         }
 
@@ -115,8 +119,6 @@ namespace MyJavaScript.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(file).State = EntityState.Modified;
-                db.SaveChanges();
                 return RedirectToAction("Index", new { id = file.ProjectID });
             }
             return View(file);
@@ -129,8 +131,7 @@ namespace MyJavaScript.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
-            File file = db.Files.Find(id);
+			File file = FileService.Instance.FindFile(id.Value);
 
             if (file == null)
             {
@@ -144,9 +145,8 @@ namespace MyJavaScript.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            File file = db.Files.Find(id);
-            db.Files.Remove(file);
-            db.SaveChanges();
+			File file = FileService.Instance.FindFile(id);
+			FileService.Instance.DeleteFile(id);
             return RedirectToAction("Index", new { id = file.ProjectID });
         }
         protected override void Dispose(bool disposing)
@@ -161,7 +161,7 @@ namespace MyJavaScript.Controllers
         [HttpGet]
         public PartialViewResult GetDeletePartial(int id)
         {
-            var deleteItem = db.Files.Find(id);
+			var deleteItem = FileService.Instance.FindFile(id);
 
             return PartialView("Delete", deleteItem);
         }
@@ -172,8 +172,8 @@ namespace MyJavaScript.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            File file = db.Files.Find(id.Value);
-            if (file == null)
+            File file = FileService.Instance.FindFile(id.Value);
+			if (file == null)
             {
                 return HttpNotFound();
             }
@@ -189,6 +189,7 @@ namespace MyJavaScript.Controllers
             {
                 db.Entry(file).State = EntityState.Modified;
                 db.SaveChanges();
+				FileService.Instance.Edit(file);
                 return RedirectToAction("Index", new { id = file.ProjectID });
             }
             return View(file);

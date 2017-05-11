@@ -40,6 +40,19 @@ namespace MyJavaScript.Models
 			db.SaveChanges();
 
 		}
+		public File FindFile(int id)
+		{
+			File file = (from f in _files
+							   where f.ID == id
+							   select f).FirstOrDefault();
+			return file;
+		}
+		public void Edit (File file)
+		{
+			File f = Instance.FindFile(file.ID);
+			f.Content = file.Content;
+			f.Title = file.Title;
+		}
 		public bool FileExists(File file)
 		{
 			var result = (from files in _files
@@ -54,7 +67,7 @@ namespace MyJavaScript.Models
 				return false;
 			}
 		}
-		public void DeleteFile(int id)
+		public void DeleteFilesFromProject(int id)
 		{
 			IEnumerable<File> files = from file in _files
 									  where file.ProjectID == id
@@ -62,6 +75,16 @@ namespace MyJavaScript.Models
 
 			db.Files.RemoveRange(files);
 			_files.RemoveAll(file => file.ProjectID == id);
+		}
+		public void DeleteFile(int id)
+		{
+			var file = (from f in _files
+									  where f.ID == id
+									  select f).FirstOrDefault();
+
+			db.Files.Remove(file);
+			db.SaveChanges();
+			_files.Remove(file);
 		}
 	}
 }

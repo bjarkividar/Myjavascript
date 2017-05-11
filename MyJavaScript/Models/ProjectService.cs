@@ -103,7 +103,7 @@ namespace MyJavaScript.Models
 			db.InvitedUsers.RemoveRange(invitations);
 			_invitedUsers.RemoveAll(user => user.ProjectID == p.ID);
 
-			FileService.Instance.DeleteFile(p.ID);
+			FileService.Instance.DeleteFilesFromProject(p.ID);
 			db.Projects.Remove(p);
 			db.SaveChanges();
 
