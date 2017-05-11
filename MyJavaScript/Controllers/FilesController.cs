@@ -22,46 +22,41 @@ namespace MyJavaScript.Controllers
         // GET: Files
         public ActionResult Index(int? id, string search)
         {
-            var project = (from p in db.Projects
-                          where id.Value == p.ID
-                          select p.Title).FirstOrDefault();
+			Project project = ProjectService.Instance.FindProject(id.Value);
+            ViewBag.Name = project.UserID;
 
-            ViewBag.Name = project;
-
-            var file = from f in db.Files
-                       where id.Value == f.ProjectID
-                       select f;
-
+			IEnumerable<File> files = FileService.Instance.Files(id.Value);
             if (!String.IsNullOrEmpty(search))
             {
-                file = file.Where(x => x.Title.Contains(search));
-                return View(file);
+                files = files.Where(x => x.Title.Contains(search));
+                return View(files);
             }
             return View(db.Files.Where(x => x.ProjectID.Equals(id.Value)).ToList());
         }
 
         // GET: Files/Create
         public ActionResult Create(int? id)
-        {  
-            return View();
+        {
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			return View();
         }
 
         // POST: Files/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Title,ContentType,Data,ProjectID")] File file)
         { 
             if (ModelState.IsValid)
             {
-				IEnumerable<File> result = from files in db.Files
-										 where (files.Title == file.Title) && (files.ProjectID == file.ProjectID)
-										 select files;
-				if (result.FirstOrDefault() == null)
+				
+				if (!FileService.Instance.FileExists(file))
 				{
-					db.Files.Add(file);
-					db.SaveChanges();
+					FileService.Instance.AddFile(file);
+					
 					return RedirectToAction("Index", new { id = file.ProjectID });
 				}
 				else
@@ -169,20 +164,6 @@ namespace MyJavaScript.Controllers
 
             return PartialView("Delete", deleteItem);
 		}
-		/*
-		public ActionResult UploadFile (string myUploader)
-		{
-			using (CuteWebUI.MvcUploader uploader = new CuteWebUI.MvcUploader(System.Web.HttpContext.Current))
-			{
-				uploader.UploadUrl = Response.ApplyAppPathModifier("~/UploadHandler.ashx");
-				uploader.Name = "myuploader";
-				uploader.AllowedFileExtensions = "*.jpg,*.gif,*.png,*.bmp,*.zip,*.rar";
-				uploader.InsertText = "Select a file to upload";
-				ViewData["uploaderhtml"] = uploader.Render();
-			}
-			return View();
-		}
-		*/
-		
+
     }
 }

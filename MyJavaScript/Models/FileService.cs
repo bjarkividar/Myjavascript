@@ -26,12 +26,33 @@ namespace MyJavaScript.Models
 		{
 			_files = db.Files.ToList();
 		}
+		public IEnumerable<File> Files(int id)
+		{
+			var files = from f in _files
+					   where id == f.ProjectID
+					   select f;
+			return files;
+		}
 		public void AddFile(File f)
 		{
-			Instance._files.Add(f);
+			_files.Add(f);
 			db.Files.Add(f);
 			db.SaveChanges();
 
+		}
+		public bool FileExists(File file)
+		{
+			var result = (from files in _files
+									   where (files.Title == file.Title) && (files.ProjectID == file.ProjectID)
+									   select files).FirstOrDefault();
+			if (result != null)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 		public void DeleteFile(int id)
 		{
