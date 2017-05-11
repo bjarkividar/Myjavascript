@@ -17,6 +17,7 @@
 
 <p>
     @Html.ActionLink("Create New Project", "Create", "Projects", new { @class = "btn btn-info" })
+    @*<a href="#" class="createLink"><span class="glyphicon glyphicon-plus"></span></a>*@
 
 </p>
 
@@ -48,6 +49,9 @@
             @Html.DisplayFor(modelItem => item.UserID)
         </td>       
         <td>
+            @*<a href="#" class="shareLink" id="@item.ID"><span class="glyphicon glyphicon-plus"></span></a>*@
+
+            @Html.ActionLink(" ", "Edit", new { id = item.ID }, new { @class = "glyphicon glyphicon-pencil" })
             @Html.ActionLink(" ", "ShareProject", new { id = item.ID }, new { @class = "glyphicon glyphicon-link"})
 
             <a href="#" class="deleteLink" id="@item.ID"><span class="glyphicon glyphicon-remove"></span></a>
@@ -60,7 +64,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cancel</span></button>
                 <h4 class="modal-title" id="deleteModalLabel">Are you sure you want to delete project?</h4>
             </div>
             <div id="deleteModalBody" class="modal-body"></div>
@@ -71,6 +75,8 @@
         </div>
     </div>
 </div>
+
+
 
 @section Scripts
 {
@@ -90,4 +96,5 @@
         });
     });
 </script>
+
 }
