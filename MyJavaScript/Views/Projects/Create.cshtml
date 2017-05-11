@@ -5,11 +5,13 @@
 }
 
 <h2>Create</h2>
+@*@using (Html.BeginForm("Create", "Projects", new { id = Model.ID }, FormMethod.Post, new { id = "createForm" }))*@
 
-@using (Html.BeginForm()) 
+
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Project</h4>
         <hr />
@@ -37,4 +39,10 @@
 @section Scripts
 {
     @Scripts.Render("~/bundles/jqueryval")
+<script>
+    $("#createBtn").on("click", function () {
+        debugger;
+            $("#createForm").submit();
+        });
+</script> 
 }

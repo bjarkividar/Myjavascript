@@ -5,9 +5,12 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.UI.WebControls;
+
 using System.Web.Mvc;
 using MyJavaScript.Models;
 using MyJavaScript.Models.Entity;
+
 
 namespace MyJavaScript.Controllers
 {
@@ -194,5 +197,22 @@ namespace MyJavaScript.Controllers
             }
             return View(file);
         }
+
+		}
+		/*
+		public ActionResult UploadFile (string myUploader)
+		{
+			using (CuteWebUI.MvcUploader uploader = new CuteWebUI.MvcUploader(System.Web.HttpContext.Current))
+			{
+				uploader.UploadUrl = Response.ApplyAppPathModifier("~/UploadHandler.ashx");
+				uploader.Name = "myuploader";
+				uploader.AllowedFileExtensions = "*.jpg,*.gif,*.png,*.bmp,*.zip,*.rar";
+				uploader.InsertText = "Select a file to upload";
+				ViewData["uploaderhtml"] = uploader.Render();
+			}
+			return View();
+		}
+		*/
+		
     }
-}
+

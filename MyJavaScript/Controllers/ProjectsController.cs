@@ -9,7 +9,6 @@ using System.Web.Mvc;
 using MyJavaScript.Models;
 using MyJavaScript.Models.Entity;
 using Microsoft.AspNet.Identity;
-using System.Net.Mail;
 
 namespace MyJavaScript.Controllers
 {
@@ -23,11 +22,7 @@ namespace MyJavaScript.Controllers
         {
             ViewBag.Name = "All Projects";
 
-            IEnumerable<int> ids = from users in db.InvitedUsers
-								   where (users.Name == System.Web.HttpContext.Current.User.Identity.Name)
-								   select users.ProjectID;
-
-			IEnumerable<Project> result = db.Projects.Where(t => ids.Contains(t.ID));
+			IEnumerable<Project> result = ProjectService.Instance.GetAllProjects(System.Web.HttpContext.Current.User.Identity.Name);
             if(String.IsNullOrEmpty(search))
             {
                 return View(result.ToList());
@@ -40,10 +35,7 @@ namespace MyJavaScript.Controllers
 		{
             ViewBag.Name = "My Projects";
 
-            IEnumerable<Project> result = from project in db.Projects
-										  where project.UserID == System.Web.HttpContext.Current.User.Identity.Name
-										  orderby project.Title
-										  select project;
+			IEnumerable<Project> result = ProjectService.Instance.GetMyProjects(System.Web.HttpContext.Current.User.Identity.Name);
             if(String.IsNullOrEmpty(search))
             {
                 return View("Index", result.ToList());
@@ -56,15 +48,7 @@ namespace MyJavaScript.Controllers
 		{
             ViewBag.Name = "Shared with me";
 
-            IEnumerable<int> ids = from users in db.InvitedUsers
-                                       where (users.Name == System.Web.HttpContext.Current.User.Identity.Name)
-                                       select users.ProjectID;
-
-            IEnumerable<Project> result = db.Projects.Where(t => ids.Contains(t.ID));
-            result = from project in result
-                     where (project.UserID != System.Web.HttpContext.Current.User.Identity.Name)
-                     select project;
-   
+			IEnumerable<Project> result = ProjectService.Instance.GetSharedProjects(System.Web.HttpContext.Current.User.Identity.Name);
             if(String.IsNullOrEmpty(search))
             {
                 return View("Index", result.ToList());
@@ -89,18 +73,10 @@ namespace MyJavaScript.Controllers
             if (ModelState.IsValid)
             {
 				project.UserID = System.Web.HttpContext.Current.User.Identity.Name;
-				IEnumerable<Project> result = from proj in db.Projects
-										   where (proj.Title == project.Title) && (proj.UserID == project.UserID)
-										   select proj;
-				if (result.FirstOrDefault() == null)
+				if (!ProjectService.Instance.CheckIfExist(project))
 				{
-					db.Projects.Add(project);
-					db.SaveChanges();
-					InvitedUser user = new InvitedUser() { Name = project.UserID, ProjectID = project.ID };
-					File file = new File() { Title = "index", ProjectID = project.ID, ContentType = "JavaScript" };
-					db.Files.Add(file);
-					db.InvitedUsers.Add(user);
-					db.SaveChanges();
+					ProjectService.Instance.AddProject(project);
+				
 					return RedirectToAction("Index");
 				}
 				else
@@ -118,7 +94,7 @@ namespace MyJavaScript.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = db.Projects.Find(id);
+			Project project = ProjectService.Instance.FindProject(id.Value);
             if (project == null)
             {
                 return HttpNotFound();
@@ -135,8 +111,9 @@ namespace MyJavaScript.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(project).State = EntityState.Modified;
-                db.SaveChanges();
+				db.Entry(project).State = EntityState.Modified;
+				db.SaveChanges();
+				ProjectService.Instance.Edit(project);
                 return RedirectToAction("Index");
             }
             return View(project);
@@ -149,7 +126,7 @@ namespace MyJavaScript.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = db.Projects.Find(id);
+			Project project = ProjectService.Instance.FindProject(id.Value);
             if (project == null)
             {
                 return HttpNotFound();
@@ -165,27 +142,15 @@ namespace MyJavaScript.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Project project = db.Projects.Find(id);
+			Project project = ProjectService.Instance.FindProject(id);
 			if (project.UserID == System.Web.HttpContext.Current.User.Identity.Name)
 			{
-				IEnumerable<InvitedUser> invitations = from users in db.InvitedUsers
-													   where users.ProjectID == id
-													   select users;
-				IEnumerable<File> files = from file in db.Files
-													   where file.ProjectID == id
-													   select file;
-				db.Files.RemoveRange(files);
-				db.InvitedUsers.RemoveRange(invitations);
-				db.Projects.Remove(project);
+				ProjectService.Instance.DeleteProject(project);
 			}
 			else
 			{
-				IEnumerable<InvitedUser> invitations = from user in db.InvitedUsers
-													   where (user.ProjectID == id) && (user.Name == System.Web.HttpContext.Current.User.Identity.Name)
-													   select user;
-				db.InvitedUsers.RemoveRange(invitations);				
+				ProjectService.Instance.LeaveProject(project, System.Web.HttpContext.Current.User.Identity.Name);				
 			}
-			db.SaveChanges();
 			return RedirectToAction("Index");
         }
 		//Get
@@ -206,32 +171,16 @@ namespace MyJavaScript.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				if(db.Users.Any(x => x.UserName == user.Name))
+				if (ProjectService.Instance.InviteToProject(user))
 				{
-					db.InvitedUsers.Add(user);
-					db.SaveChanges();
-					try
-					{
-						using (MailMessage message = new MailMessage())
-						{
-							message.To.Add(user.Name);
-							message.Subject = "Invitation to a project.";
-							message.Body = "You have been invited to edit a project in MyJavascript";
-							using (SmtpClient client = new SmtpClient())
-							{
-								client.EnableSsl = true;
-								client.Send(message);
-							}
-						}
-					}
-					catch(Exception ex) { }
 					return RedirectToAction("Index");
 				}
 				else
 				{
-					ViewBag.ErrorMessage = "User not in the system";
+					ViewBag.ErrorMessage = "User not in the system or already has access to the project";
 				}
 			}
+			
 			return View(user);
 		}
 		protected override void Dispose(bool disposing)
@@ -245,7 +194,7 @@ namespace MyJavaScript.Controllers
         [HttpGet]
         public PartialViewResult GetDeletePartial(int id)
         {
-            var deleteItem = db.Projects.Find(id);  
+			var deleteItem = ProjectService.Instance.FindProject(id);
 
             return PartialView("Delete", deleteItem);
         }

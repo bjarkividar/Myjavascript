@@ -4,8 +4,18 @@
     ViewBag.Title = "Edit";
 }
 
-<h5>File: @Html.DisplayFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })</h5>
+@*<h5>File: @Html.DisplayFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })</h5>*@
+
+@Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+<div class="col-md-10">
+    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+</div>
+
 <h5>Type: @Html.DisplayFor(model => model.ContentType, new { htmlAttributes = new { @class = "form-control" } })</h5>
+<button id="show-all-connections">Connected Users</button>
+
+    <ul id="user-list"></ul>
 
 <div id="editor">@ViewBag.Code</div>
 
@@ -72,6 +82,15 @@
             codeHub.server.onChange(obj, documentID);
         });
     });
+    $("#show-all-connections").on("click", function () {
+        $("#user-list").children().remove();
+        codeHub.server.getAllActiveConnections().done(function (connections) {
+            $.map(connections, function (item) {
+                $("#user-list").append("<li id ='" + item + "'> User editing : " + item + "</li>");
+            });
+        });
+    });
+   
     </script>
 }
 

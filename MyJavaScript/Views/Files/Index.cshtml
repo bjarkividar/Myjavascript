@@ -17,6 +17,7 @@
         <input type="submit" value="Search" , new { class="btn btn-info" } />
     </p>
 }
+
 <table class="table table-hover">
     <tr>
         <th>
@@ -27,6 +28,7 @@
         </th>
         <th></th>
     </tr>
+
 
 @foreach (var item in Model)
 {
@@ -47,6 +49,10 @@
     </tr>
 }
 </table>
+
+<div>
+    @Html.ActionLink("Back to List", "Index", "Projects")
+</div>
 
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
