@@ -27,13 +27,17 @@
                 @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
             </div><br />
         </div>
-
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-info" />
-        </div>
     }
 
 </div>
 
+@section Scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $("#deleteBtn").on("click", function () {
+            $("#deleteForm").submit();
+        });
+    </script>
+}
 
