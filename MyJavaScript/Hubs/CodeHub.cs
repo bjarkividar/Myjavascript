@@ -55,14 +55,15 @@ namespace MyJavaScript.Hubs
 		{
 			return CurrentConnections.ToList();
 		}
+
 		public void JoinDocument(int documentID)
 		{
 			Groups.Add(Context.ConnectionId, Convert.ToString(documentID));
 		}
+
 		public void OnChange(object changeData, int documentID)
 		{
 			Clients.Group(Convert.ToString(documentID), Context.ConnectionId).onChange(changeData);
-			//Clients.All.OnChange(changeData);
 		}
 	}
 }

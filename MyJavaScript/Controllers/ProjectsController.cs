@@ -87,6 +87,17 @@ namespace MyJavaScript.Controllers
             return View(project);
         }
 
+        /* Creates selected project with modal window.  */
+        [HttpGet]
+        public PartialViewResult GetCreatePartial(string title)
+        {
+            Project createProject = new Project()
+            {
+                Title = title
+            };
+            return PartialView("Create", createProject);
+        }
+
         // GET: Projects/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -118,7 +129,16 @@ namespace MyJavaScript.Controllers
             }
             return View(project);
         }
-		
+
+        /* User can edit name of project with modal window */
+        [HttpGet]
+        public PartialViewResult GetEditPartial(int id)
+        {
+            var editItem = ProjectService.Instance.FindProject(id);
+
+            return PartialView("Edit", editItem);
+        }
+
         // GET: Projects/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -153,8 +173,19 @@ namespace MyJavaScript.Controllers
 			}
 			return RedirectToAction("Index");
         }
-		//Get
-		public ActionResult ShareProject(int? id)
+
+        /* Deletes selected projects with modal window. 
+           When user clickes delete button the project will disappear from list  */
+        [HttpGet]
+        public PartialViewResult GetDeletePartial(int id)
+        {
+            var deleteItem = ProjectService.Instance.FindProject(id);
+
+            return PartialView("Delete", deleteItem);
+        }
+
+        //Get
+        public ActionResult ShareProject(int? id)
 		{
 			if (id == null)
 			{
@@ -183,7 +214,20 @@ namespace MyJavaScript.Controllers
 			
 			return View(user);
 		}
-		protected override void Dispose(bool disposing)
+
+        /* Shares project with another user, using email. When user clickes on share icon a modal window appears. 
+           User will get an email that tells him that he's been invited to work on that particular project.    */
+        [HttpGet]
+        public PartialViewResult GetSharePartial(int id)
+        {
+            InvitedUser user = new InvitedUser
+            {
+                ProjectID = id
+            };
+            return PartialView("ShareProject", user);
+        }
+
+        protected override void Dispose(bool disposing)
 		{
 			if (disposing)
 			{
@@ -191,12 +235,5 @@ namespace MyJavaScript.Controllers
 			}
 			base.Dispose(disposing);
 		}
-        [HttpGet]
-        public PartialViewResult GetDeletePartial(int id)
-        {
-			var deleteItem = ProjectService.Instance.FindProject(id);
-
-            return PartialView("Delete", deleteItem);
-        }
     }
 }

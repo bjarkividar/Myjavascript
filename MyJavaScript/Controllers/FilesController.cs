@@ -91,6 +91,7 @@ namespace MyJavaScript.Controllers
 
             return View(file);
         }
+
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult SaveCode(File model, int? id)
@@ -150,6 +151,7 @@ namespace MyJavaScript.Controllers
 			FileService.Instance.DeleteFile(id);
             return RedirectToAction("Index", new { id = file.ProjectID });
         }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -159,6 +161,7 @@ namespace MyJavaScript.Controllers
             base.Dispose(disposing);
         }
 
+        //Deletes selected files with a modal window
         [HttpGet]
         public PartialViewResult GetDeletePartial(int id)
         {
@@ -188,6 +191,7 @@ namespace MyJavaScript.Controllers
         {
             if (ModelState.IsValid)
             {
+                file = FileService.Instance.AddExtension(file);
                 db.Entry(file).State = EntityState.Modified;
                 db.SaveChanges();
 				FileService.Instance.Edit(file);
@@ -195,8 +199,6 @@ namespace MyJavaScript.Controllers
             }
             return View(file);
         }
-
-		}
-
     }
+}
 

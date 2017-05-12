@@ -4,16 +4,11 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
-@*@using (Html.BeginForm("Create", "Projects", new { id = Model.ID }, FormMethod.Post, new { id = "createForm" }))*@
-
-
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create", "Projects", FormMethod.Post, new { id = "createForm" }))
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Project</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         
@@ -24,25 +19,15 @@
                 @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-info" />
-            </div>
-        </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts
 {
     @Scripts.Render("~/bundles/jqueryval")
-<script>
-    $("#createBtn").on("click", function () {
-        debugger;
+    <script>
+        $("#createBtn").on("click", function () {
             $("#createForm").submit();
         });
-</script> 
+</script>
 }
