@@ -1,6 +1,7 @@
 ﻿using MyJavaScript.Models.Entity;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -55,7 +56,7 @@ namespace MyJavaScript.Models
 
         public void Edit(File file)
         {
-            File f = Instance.FindFile(file.ID);
+			File f = Instance.FindFile(file.ID);
             f.Content = file.Content;
             f.Title = file.Title;
         }

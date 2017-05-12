@@ -98,8 +98,7 @@ namespace MyJavaScript.Models
 
         public void Edit(Project project)
         {
-
-            Project p = Instance.FindProject(project.ID);
+			Project p = Instance.FindProject(project.ID);
             p.Title = project.Title;
 
         }

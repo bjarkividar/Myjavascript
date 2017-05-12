@@ -30,5 +30,5 @@ namespace MyJavaScript.Models
         {
             return new ApplicationDbContext();
         }
-    }
+	}
 }
