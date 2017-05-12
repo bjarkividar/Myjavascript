@@ -23,10 +23,10 @@ namespace MyJavaScript.Controllers
         public ActionResult Index(int? id, string search)
         {
 
-			Project project = ProjectService.Instance.FindProject(id.Value);
+            Project project = ProjectService.Instance.FindProject(id.Value);
             ViewBag.Name = project.Title;
 
-			IEnumerable<File> files = FileService.Instance.Files(id.Value);
+            IEnumerable<File> files = FileService.Instance.Files(id.Value);
             if (!String.IsNullOrEmpty(search))
             {
                 files = files.Where(x => x.Title.Contains(search));
@@ -35,16 +35,16 @@ namespace MyJavaScript.Controllers
             return View(db.Files.Where(x => x.ProjectID.Equals(id.Value)).ToList());
         }
 
-		// GET: Files/Create
-		public ActionResult Create(int? id)
-		{
+        // GET: Files/Create
+        public ActionResult Create(int? id)
+        {
 
-			if (id == null)
-			{
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			}
-			return View();
-		}
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            return View();
+        }
 
         // POST: Files/Create
 
@@ -54,17 +54,17 @@ namespace MyJavaScript.Controllers
         {
             if (ModelState.IsValid)
             {
-				file = FileService.Instance.AddExtension(file);
-				if (!FileService.Instance.FileExists(file))
-				{
-					FileService.Instance.AddFile(file);
-					
-					return RedirectToAction("Index", new { id = file.ProjectID });
-				}
-				else
-				{
-					ModelState.AddModelError("Title", "There is already a file with this name in this project.");
-				}
+                file = FileService.Instance.AddExtension(file);
+                if (!FileService.Instance.FileExists(file))
+                {
+                    FileService.Instance.AddFile(file);
+
+                    return RedirectToAction("Index", new { id = file.ProjectID });
+                }
+                else
+                {
+                    ModelState.AddModelError("Title", "There is already a file with this name in this project.");
+                }
             }
             return View(file);
         }
@@ -75,7 +75,7 @@ namespace MyJavaScript.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-			File file = FileService.Instance.FindFile(id.Value);
+            File file = FileService.Instance.FindFile(id.Value);
             if (file == null)
             {
                 return HttpNotFound();
@@ -96,11 +96,11 @@ namespace MyJavaScript.Controllers
         [ValidateInput(false)]
         public ActionResult SaveCode(File model, int? id)
         {
-			if (id == null)
-			{
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			}
-			File file = FileService.Instance.FindFile(id.Value);
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            File file = FileService.Instance.FindFile(id.Value);
             if (file == null)
             {
                 return HttpNotFound();
@@ -108,7 +108,7 @@ namespace MyJavaScript.Controllers
             file.Content = model.Content;
             db.Entry(file).State = EntityState.Modified;
             db.SaveChanges();
-			FileService.Instance.Edit(file);
+            FileService.Instance.Edit(file);
             return RedirectToAction("Edit", new { id = model.ID });
         }
 
@@ -133,7 +133,7 @@ namespace MyJavaScript.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-			File file = FileService.Instance.FindFile(id.Value);
+            File file = FileService.Instance.FindFile(id.Value);
 
             if (file == null)
             {
@@ -147,8 +147,8 @@ namespace MyJavaScript.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-			File file = FileService.Instance.FindFile(id);
-			FileService.Instance.DeleteFile(id);
+            File file = FileService.Instance.FindFile(id);
+            FileService.Instance.DeleteFile(id);
             return RedirectToAction("Index", new { id = file.ProjectID });
         }
 
@@ -165,7 +165,7 @@ namespace MyJavaScript.Controllers
         [HttpGet]
         public PartialViewResult GetDeletePartial(int id)
         {
-			var deleteItem = FileService.Instance.FindFile(id);
+            var deleteItem = FileService.Instance.FindFile(id);
 
             return PartialView("Delete", deleteItem);
         }
@@ -177,7 +177,7 @@ namespace MyJavaScript.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             File file = FileService.Instance.FindFile(id.Value);
-			if (file == null)
+            if (file == null)
             {
                 return HttpNotFound();
             }
@@ -194,7 +194,7 @@ namespace MyJavaScript.Controllers
                 file = FileService.Instance.AddExtension(file);
                 db.Entry(file).State = EntityState.Modified;
                 db.SaveChanges();
-				FileService.Instance.Edit(file);
+                FileService.Instance.Edit(file);
                 return RedirectToAction("Index", new { id = file.ProjectID });
             }
             return View(file);
