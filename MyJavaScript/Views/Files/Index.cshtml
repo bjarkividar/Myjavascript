@@ -8,6 +8,8 @@
 
 <p> 
     @Html.ActionLink("Create New File", "Create", new {id = Url.RequestContext.RouteData.Values["ID"]}, new { @class = "btn btn-info" })
+    @*<a href="#" class="createLink"><span class="btn btn-info" "></span></a>*@
+
 </p>
 
 @using (Html.BeginForm())
@@ -41,6 +43,7 @@
         </td>
         <td>
             @Html.ActionLink(" ", "EditInfo", new { id = item.ID }, new { @class = "glyphicon glyphicon-pencil" })
+            @*<a href="#" class="editLink" id="@item.ID"><span class="glyphicon glyphicon-pencil"></span></a>*@
             <a href="#" class="deleteLink" id="@item.ID"><span class="glyphicon glyphicon-remove"></span></a>
         </td>
 
@@ -52,6 +55,7 @@
     @Html.ActionLink("Back to List", "Index", "Projects")
 </div>
 
+@*Modal for delete*@
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

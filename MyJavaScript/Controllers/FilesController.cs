@@ -91,6 +91,7 @@ namespace MyJavaScript.Controllers
 
             return View(file);
         }
+
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult SaveCode(File model, int? id)
@@ -150,6 +151,7 @@ namespace MyJavaScript.Controllers
 			FileService.Instance.DeleteFile(id);
             return RedirectToAction("Index", new { id = file.ProjectID });
         }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -195,8 +197,6 @@ namespace MyJavaScript.Controllers
             }
             return View(file);
         }
-
-		}
-
     }
+}
 

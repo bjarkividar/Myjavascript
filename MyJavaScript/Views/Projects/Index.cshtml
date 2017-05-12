@@ -50,7 +50,6 @@
             @Html.DisplayFor(modelItem => item.UserID)
         </td>    
         <td>
-            @*@Html.ActionLink(" ", "Edit", new { id = item.ID }, new { @class = "glyphicon glyphicon-pencil" })*@
             <a href="#" class="editLink" id="@item.ID"><span class="glyphicon glyphicon-pencil"></span></a>
             <a href="#" class="shareLink" id="@item.ID"><i class="material-icons">person_add</i></a>
             <a href="#" class="deleteLink" id="@item.ID"><span class="glyphicon glyphicon-remove"></span></a>
