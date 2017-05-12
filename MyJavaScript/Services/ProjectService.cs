@@ -23,8 +23,11 @@ namespace MyJavaScript.Models
                 return _instance;
             }
         }
+
         private List<Project> _projects = null;
+
         private List<InvitedUser> _invitedUsers = null;
+
         private ProjectService()
         {
             _projects = db.Projects.ToList();
@@ -37,6 +40,7 @@ namespace MyJavaScript.Models
 
             return _projects.Where(t => ids.Contains(t.ID));
         }
+
         public IEnumerable<Project> GetMyProjects(string username)
         {
             IEnumerable<Project> result = from project in _projects
@@ -45,6 +49,7 @@ namespace MyJavaScript.Models
                                           select project;
             return result.ToList();
         }
+
         public IEnumerable<Project> GetSharedProjects(string username)
         {
             IEnumerable<int> ids = GetIds(username);
@@ -55,6 +60,7 @@ namespace MyJavaScript.Models
                      select project;
             return result.ToList();
         }
+
         public bool CheckIfExist(Project p)
         {
 
@@ -70,6 +76,7 @@ namespace MyJavaScript.Models
                 return true;
             }
         }
+
         public void AddProject(Project p)
         {
             Instance._projects.Add(p);
@@ -81,6 +88,7 @@ namespace MyJavaScript.Models
             db.InvitedUsers.Add(user);
             db.SaveChanges();
         }
+
         public Project FindProject(int id)
         {
             Project project = (from p in _projects
@@ -88,6 +96,7 @@ namespace MyJavaScript.Models
                                select p).FirstOrDefault();
             return project;
         }
+
         public void Edit(Project project)
         {
 
@@ -95,6 +104,7 @@ namespace MyJavaScript.Models
             p.Title = project.Title;
 
         }
+
         public void DeleteProject(Project p)
         {
             IEnumerable<InvitedUser> invitations = from users in _invitedUsers
@@ -109,6 +119,7 @@ namespace MyJavaScript.Models
             db.SaveChanges();
 
         }
+
         public void LeaveProject(Project p, string name)
         {
             IEnumerable<InvitedUser> invitations = from user in db.InvitedUsers
@@ -118,6 +129,7 @@ namespace MyJavaScript.Models
             _invitedUsers.RemoveAll(user => (user.ProjectID == p.ID && user.Name == name));
             db.SaveChanges();
         }
+
         public bool InviteToProject(InvitedUser user)
         {
             if ((db.Users.Any(x => x.UserName == user.Name)) && (!_invitedUsers.Contains(user)))
@@ -147,6 +159,7 @@ namespace MyJavaScript.Models
                 return false;
             }
         }
+
         public IEnumerable<int> GetIds(string name)
         {
             IEnumerable<int> result = from users in _invitedUsers

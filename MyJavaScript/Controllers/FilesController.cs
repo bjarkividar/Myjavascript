@@ -161,6 +161,7 @@ namespace MyJavaScript.Controllers
             base.Dispose(disposing);
         }
 
+        //Deletes selected files with a modal window
         [HttpGet]
         public PartialViewResult GetDeletePartial(int id)
         {
