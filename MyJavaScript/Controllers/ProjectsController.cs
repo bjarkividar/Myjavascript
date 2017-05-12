@@ -191,12 +191,42 @@ namespace MyJavaScript.Controllers
 			}
 			base.Dispose(disposing);
 		}
+
         [HttpGet]
         public PartialViewResult GetDeletePartial(int id)
         {
 			var deleteItem = ProjectService.Instance.FindProject(id);
-
+            
             return PartialView("Delete", deleteItem);
+        }
+
+        [HttpGet]
+        public PartialViewResult GetSharePartial(int id)
+        {
+            //var shareItem = db.Projects.Find(id);
+            InvitedUser user = new InvitedUser
+            {
+                ProjectID = id
+            };
+            return PartialView("ShareProject", user);
+        }
+        
+        [HttpGet]
+        public PartialViewResult GetCreatePartial(string title)
+        {
+            Project createProject = new Project()
+            {
+               Title = title
+            };
+            return PartialView("Create", createProject);
+        }
+
+        [HttpGet]
+        public PartialViewResult GetEditPartial(int id)
+        {
+            var editItem = ProjectService.Instance.FindProject(id);
+
+            return PartialView("Edit", editItem);
         }
     }
 }

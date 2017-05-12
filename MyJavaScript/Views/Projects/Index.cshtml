@@ -9,6 +9,7 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 </head>
 
@@ -16,8 +17,8 @@
 
 
 <p>
-    @Html.ActionLink("Create New Project", "Create", "Projects", new { @class = "btn btn-info" })
-    @*<a href="#" class="createLink"><span class="glyphicon glyphicon-plus"></span></a>*@
+    @*@Html.ActionLink("Create New Project", "Create", "Projects", new { @class = "btn btn-info" })*@
+    <a href="#" class="createLink"><span class="btn btn-info""></span></a>
 
 </p>
 
@@ -49,17 +50,16 @@
             @Html.DisplayFor(modelItem => item.UserID)
         </td>    
         <td>
-            @*<a href="#" class="shareLink" id="@item.ID"><span class="glyphicon glyphicon-plus"></span></a>*@
-
-            @Html.ActionLink(" ", "Edit", new { id = item.ID }, new { @class = "glyphicon glyphicon-pencil" })
-            @Html.ActionLink(" ", "ShareProject", new { id = item.ID }, new { @class = "glyphicon glyphicon-link"})
-
+            @*@Html.ActionLink(" ", "Edit", new { id = item.ID }, new { @class = "glyphicon glyphicon-pencil" })*@
+            <a href="#" class="editLink" id="@item.ID"><span class="glyphicon glyphicon-pencil"></span></a>
+            <a href="#" class="shareLink" id="@item.ID"><i class="material-icons">person_add</i></a>
             <a href="#" class="deleteLink" id="@item.ID"><span class="glyphicon glyphicon-remove"></span></a>
         </td>
     </tr>
 }
 </table>
 
+@*Modal for delete*@
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -76,7 +76,53 @@
     </div>
 </div>
 
+@*Modal for share project*@
+<div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cancel</span></button>
+                <h4 class="modal-title" id="shareModalLabel">Share project</h4>
+            </div>
+            <div id="shareModalBody" class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
 
+@*Modal for create*@
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cancel</span></button>
+                <h4 class="modal-title" id="createModalLabel">New project</h4>
+            </div>
+            <div id="createModalBody" class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Modal for editInfo*@
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cancel</span></button>
+                <h4 class="modal-title" id="editModalLabel">Edit project</h4>
+            </div>
+            <div id="editModalBody" class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts
 {
@@ -97,4 +143,55 @@
     });
 </script>
 
+<script>
+        $(function () {
+        $("#shareModal").modal("hide");
+
+        $(".shareLink").on("click", function () {
+            $("#shareBtn").on("click", function () {
+                $("#shareForm").submit();
+            });
+            $.get('@Url.Action("GetSharePartial")', { id: $(this).prop("id") }, function (data) {
+                debugger;
+                $("#shareModalBody").html(data);
+
+                $("#shareModal").modal("show");
+            });
+        });
+    });
+</script>
+
+<script>
+        $(function () {
+        $("#createModal").modal("hide");
+
+        $(".createLink").on("click", function () {
+            $("#createBtn").on("click", function () {
+                $("#createForm").submit();
+            });
+            $.get('@Url.Action("GetCreatePartial")', { id: $(this).prop("id") }, function (data) {
+                $("#createModalBody").html(data);
+
+                $("#createModal").modal("show");
+            });
+        });
+    });
+</script>
+
+<script>
+        $(function () {
+        $("#editModal").modal("hide");
+
+        $(".editLink").on("click", function () {
+            $("#editBtn").on("click", function () {
+                $("#editForm").submit();
+            });
+            $.get('@Url.Action("GetEditPartial")', { id: $(this).prop("id") }, function (data) {
+                $("#editModalBody").html(data);
+
+                $("#editModal").modal("show");
+            });
+        });
+    });
+</script>
 }
