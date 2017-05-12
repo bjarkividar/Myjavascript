@@ -22,17 +22,24 @@ namespace MyJavaScript.Controllers
         // GET: Files
         public ActionResult Index(int? id, string search)
         {
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			else
+			{
+				Project project = ProjectService.Instance.FindProject(id.Value);
+				ViewBag.Name = project.Title;
 
-            Project project = ProjectService.Instance.FindProject(id.Value);
-            ViewBag.Name = project.Title;
+				IEnumerable<File> files = FileService.Instance.Files(id.Value);
+				if (!String.IsNullOrEmpty(search))
+				{
+					files = files.Where(x => x.Title.Contains(search));
+					return View(files);
+				}
+				return View(files);
 
-            IEnumerable<File> files = FileService.Instance.Files(id.Value);
-            if (!String.IsNullOrEmpty(search))
-            {
-                files = files.Where(x => x.Title.Contains(search));
-                return View(files);
-            }
-            return View(db.Files.Where(x => x.ProjectID.Equals(id.Value)).ToList());
+			}
         }
 
         // GET: Files/Create
@@ -106,7 +113,7 @@ namespace MyJavaScript.Controllers
                 return HttpNotFound();
             }
             file.Content = model.Content;
-            db.Entry(file).State = EntityState.Modified;
+			db.Entry(file).State = EntityState.Modified;
             db.SaveChanges();
             FileService.Instance.Edit(file);
             return RedirectToAction("Edit", new { id = model.ID });

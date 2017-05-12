@@ -33,7 +33,6 @@ namespace MyJavaScript.Models
             _projects = db.Projects.ToList();
             _invitedUsers = db.InvitedUsers.ToList();
         }
-
         public IEnumerable<Project> GetAllProjects(string username)
         {
             IEnumerable<int> ids = GetIds(username);
@@ -49,7 +48,7 @@ namespace MyJavaScript.Models
                                           select project;
             return result.ToList();
         }
-
+		// Gets the project the User has access to buut not the ones he owns from database.
         public IEnumerable<Project> GetSharedProjects(string username)
         {
             IEnumerable<int> ids = GetIds(username);
@@ -60,7 +59,7 @@ namespace MyJavaScript.Models
                      select project;
             return result.ToList();
         }
-
+		//check if the project is in the database
         public bool CheckIfExist(Project p)
         {
 
@@ -76,7 +75,7 @@ namespace MyJavaScript.Models
                 return true;
             }
         }
-
+		// Adds a new project to the database.
         public void AddProject(Project p)
         {
             Instance._projects.Add(p);
@@ -99,8 +98,7 @@ namespace MyJavaScript.Models
 
         public void Edit(Project project)
         {
-
-            Project p = Instance.FindProject(project.ID);
+			Project p = Instance.FindProject(project.ID);
             p.Title = project.Title;
 
         }
@@ -129,7 +127,7 @@ namespace MyJavaScript.Models
             _invitedUsers.RemoveAll(user => (user.ProjectID == p.ID && user.Name == name));
             db.SaveChanges();
         }
-
+		// Invites another User to edit a project.
         public bool InviteToProject(InvitedUser user)
         {
             if ((db.Users.Any(x => x.UserName == user.Name)) && (!_invitedUsers.Contains(user)))

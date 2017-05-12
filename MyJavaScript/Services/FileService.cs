@@ -1,6 +1,7 @@
 ﻿using MyJavaScript.Models.Entity;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -28,7 +29,7 @@ namespace MyJavaScript.Models
         {
             _files = db.Files.ToList();
         }
-
+		// Gets all Files connected to a particular Project.
         public IEnumerable<File> Files(int id)
         {
             var files = from f in _files
@@ -36,7 +37,7 @@ namespace MyJavaScript.Models
                         select f;
             return files;
         }
-
+		// Adds a File to a project.
         public void AddFile(File f)
         {
             _files.Add(f);
@@ -55,11 +56,11 @@ namespace MyJavaScript.Models
 
         public void Edit(File file)
         {
-            File f = Instance.FindFile(file.ID);
+			File f = Instance.FindFile(file.ID);
             f.Content = file.Content;
             f.Title = file.Title;
         }
-
+		// Check if the file is in database.
         public bool FileExists(File file)
         {
             var result = (from files in _files
