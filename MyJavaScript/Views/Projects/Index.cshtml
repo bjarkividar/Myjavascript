@@ -18,7 +18,7 @@
 
 <p>
     @*@Html.ActionLink("Create New Project", "Create", "Projects", new { @class = "btn btn-info" })*@
-    <a href="#" class="createLink"><span class="btn btn-info""></span></a>
+    <a href="#" class="createLink" ><span new { class = "btn btn-info" }>Create New Project</span></a>
 
 </p>
 
@@ -68,7 +68,6 @@
             </div>
             <div id="deleteModalBody" class="modal-body"></div>
             <div class="modal-footer">
-                <button type="button" id="deleteBtn" class="btn btn-info" data-dismiss="modal">Delete</button>
                 <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
             </div>
         </div>
@@ -81,7 +80,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cancel</span></button>
-                <h4 class="modal-title" id="shareModalLabel">Share project</h4>
+                <h4 class="modal-title" id="shareModalLabel">Please enter email address</h4>
             </div>
             <div id="shareModalBody" class="modal-body"></div>
             <div class="modal-footer">
@@ -113,7 +112,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cancel</span></button>
-                <h4 class="modal-title" id="editModalLabel">Edit project</h4>
+                <h4 class="modal-title" id="editModalLabel">Edit project information</h4>
             </div>
             <div id="editModalBody" class="modal-body"></div>
             <div class="modal-footer">

@@ -11,17 +11,24 @@
     {
         @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div><br />
+        </div>
 
+        <div class="form-group">
+            @Html.LabelFor(model => model.ContentType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.ContentType, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ContentType, "", new { @class = "text-danger" })
+            </div><br />
+        </div>
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-info" />
         </div>
     }
 </div>
-
-@section Scripts 
-{
-    <script>
-        $("#deleteBtn").on("click", function () {
-            $("#deleteForm").submit();
-        });
-    </script>
-}
