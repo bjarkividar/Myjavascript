@@ -4,28 +4,28 @@
     ViewBag.Title = "Edit";
 }
 
-@*<h5>File: @Html.DisplayFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })</h5>*@
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
 
-@Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-<div class="col-md-10">
-    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-</div>
+    <div class="form-horizontal">
+        <h4>Title: @Html.DisplayFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })</h4>
+        <h4>File type: @Html.DisplayFor(model => model.ContentType, new { htmlAttributes = new { @class = "form-control" } })</h4>
+     </div>
+}
 
-<h5>Type: @Html.DisplayFor(model => model.ContentType, new { htmlAttributes = new { @class = "form-control" } })</h5>
-<button id="show-all-connections">Connected Users</button>
+    <button id="show-all-connections">Connected Users</button>
 
     <ul id="user-list"></ul>
 
-<div id="editor">@ViewBag.Code</div>
+    <div id="editor">@ViewBag.Code</div>
 
-@using (Html.BeginForm("SaveCode", "Files", FormMethod.Post))
-{
-    
-    @Html.HiddenFor(m => m.Content, new { id = "hidden_editor" } )
-    @Html.HiddenFor(m => m.ID, new { @id = Url.RequestContext.RouteData.Values["ID"] })
-    <input type="submit" value = "Save code" class="btn btn-info" /> 
-}
+    @using (Html.BeginForm("SaveCode", "Files", FormMethod.Post))
+    {
+        @Html.HiddenFor(m => m.Content, new { id = "hidden_editor" })
+        @Html.HiddenFor(m => m.ID, new { @id = Url.RequestContext.RouteData.Values["ID"] })
+        <input type="submit" value="Save code" class="btn btn-info" />
+    }
 
 @section scripts
 {
@@ -84,6 +84,7 @@
             codeHub.server.onChange(obj, documentID);
         });
     });
+
     $("#show-all-connections").on("click", function () {
         $("#user-list").children().remove();
         codeHub.server.getAllActiveConnections().done(function (connections) {
@@ -92,10 +93,10 @@
             });
         });
     });
-   
-    </script>
+
+</script>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index" , new { id = Model.ProjectID })
+    @Html.ActionLink("Back to List", "Index", new { id = Model.ProjectID })
 </div>
