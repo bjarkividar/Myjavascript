@@ -74,6 +74,7 @@ namespace MyJavaScript.Models
 									  select file;
 
 			db.Files.RemoveRange(files);
+			db.SaveChanges();
 			_files.RemoveAll(file => file.ProjectID == id);
 		}
 		public void DeleteFile(int id)
@@ -85,6 +86,31 @@ namespace MyJavaScript.Models
 			db.Files.Remove(file);
 			db.SaveChanges();
 			_files.Remove(file);
+		}
+		public File AddExtension (File f)
+		{
+			if (f.Title.EndsWith(".js") || f.Title.EndsWith(".cs") || f.Title.EndsWith(".html"))
+			{
+				return f;
+			}
+			else
+			{
+				string extension = null;
+				switch (f.ContentType)
+				{
+					case "JavaScript":
+						extension = ".js";
+						break;
+					case "Css":
+						extension = ".css";
+						break;
+					case "HTML":
+						extension = ".html";
+						break;
+				}
+					f.Title += extension;
+				return f;
+			}
 		}
 	}
 }

@@ -100,10 +100,11 @@ namespace MyJavaScript.Models
 			IEnumerable<InvitedUser> invitations = from users in _invitedUsers
 												   where users.ProjectID == p.ID
 												   select users;
-			db.InvitedUsers.RemoveRange(invitations);
+		
 			_invitedUsers.RemoveAll(user => user.ProjectID == p.ID);
-
+			_projects.Remove(p);
 			FileService.Instance.DeleteFilesFromProject(p.ID);
+			db.InvitedUsers.RemoveRange(invitations);
 			db.Projects.Remove(p);
 			db.SaveChanges();
 

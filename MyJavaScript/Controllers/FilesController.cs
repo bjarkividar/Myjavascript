@@ -24,7 +24,7 @@ namespace MyJavaScript.Controllers
         {
 
 			Project project = ProjectService.Instance.FindProject(id.Value);
-            ViewBag.Name = project.UserID;
+            ViewBag.Name = project.Title;
 
 			IEnumerable<File> files = FileService.Instance.Files(id.Value);
             if (!String.IsNullOrEmpty(search))
@@ -54,6 +54,7 @@ namespace MyJavaScript.Controllers
         {
             if (ModelState.IsValid)
             {
+				file = FileService.Instance.AddExtension(file);
 				if (!FileService.Instance.FileExists(file))
 				{
 					FileService.Instance.AddFile(file);
