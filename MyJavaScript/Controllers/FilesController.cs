@@ -37,7 +37,8 @@ namespace MyJavaScript.Controllers
 					files = files.Where(x => x.Title.Contains(search));
 					return View(files);
 				}
-				return View(db.Files.Where(x => x.ProjectID.Equals(id.Value)).ToList());
+				return View(files);
+
 			}
         }
 
