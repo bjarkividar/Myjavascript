@@ -191,6 +191,7 @@ namespace MyJavaScript.Controllers
         {
             if (ModelState.IsValid)
             {
+                file = FileService.Instance.AddExtension(file);
                 db.Entry(file).State = EntityState.Modified;
                 db.SaveChanges();
 				FileService.Instance.Edit(file);
