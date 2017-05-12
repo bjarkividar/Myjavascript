@@ -17,7 +17,7 @@ namespace MyJavaScript.Controllers
     {
 		private ApplicationDbContext db = new ApplicationDbContext();
 		
-		// GET: Projects
+	 	// GET: Projects
 		public ActionResult Index(string search)
         {
             ViewBag.Name = "All Projects";

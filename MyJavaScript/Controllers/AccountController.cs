@@ -166,7 +166,7 @@ namespace MyJavaScript.Controllers
             return View(model);
         }
 
-        // GET: /Account/ConfirmEmail
+        /* GET: /Account/ConfirmEmail
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {
@@ -255,7 +255,7 @@ namespace MyJavaScript.Controllers
         public ActionResult ResetPasswordConfirmation()
         {
             return View();
-        }
+        }*/
 
         // POST: /Account/ExternalLogin
         [HttpPost]
