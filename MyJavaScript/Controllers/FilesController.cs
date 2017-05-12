@@ -112,7 +112,7 @@ namespace MyJavaScript.Controllers
                 return HttpNotFound();
             }
             file.Content = model.Content;
-            db.Entry(file).State = EntityState.Modified;
+			db.Entry(file).State = EntityState.Modified;
             db.SaveChanges();
 			FileService.Instance.Edit(file);
             return RedirectToAction("Edit", new { id = model.ID });
